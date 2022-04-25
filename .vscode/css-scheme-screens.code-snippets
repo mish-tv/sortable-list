@@ -1,0 +1,44 @@
+{
+  "スキーム (Application Screen - width-fullScreen)": {
+    "prefix": "application-screen-width-fullScreen",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-SCREEN--width-full-screen"
+    ]
+  },
+  "スキーム (Application Screen - width-desktop)": {
+    "prefix": "application-screen-width-desktop",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-SCREEN--width-desktop"
+    ]
+  },
+  "スキーム (Application Screen - width-tablet)": {
+    "prefix": "application-screen-width-tablet",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-SCREEN--width-tablet"
+    ]
+  },
+  "スキーム (Application Screen - width-phablet)": {
+    "prefix": "application-screen-width-phablet",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-SCREEN--width-phablet"
+    ]
+  },
+  "スキーム (Application Screen - width-phone)": {
+    "prefix": "application-screen-width-phone",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-SCREEN--width-phone"
+    ]
+  },
+  "スキーム (Application Screen - width-minimum)": {
+    "prefix": "application-screen-width-minimum",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-SCREEN--width-minimum"
+    ]
+  }
+}

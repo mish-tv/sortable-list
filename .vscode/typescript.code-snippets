@@ -1,0 +1,14 @@
+{
+  "I18n テンプレート": {
+    "prefix": "locales i18n template",
+    "scope": "typescript",
+    "body": [
+      "import { createLocales } from \"@mish/locales\";",
+      "",
+      "export const ${TM_FILENAME/(^\\w+)?\\-?(\\w+)?(\\..+$)?/$1${2:/capitalize}/g}Locale = {",
+      "  $1",
+      "};",
+      ""
+    ]
+  }
+}

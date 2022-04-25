@@ -1,0 +1,380 @@
+{
+  "スキーム (Application Color - base-heavy)": {
+    "prefix": "application-color-base-heavy",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--base-heavy"
+    ]
+  },
+  "スキーム (Application Color - base-heavy070)": {
+    "prefix": "application-color-base-heavy070",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--base-heavy070"
+    ]
+  },
+  "スキーム (Application Color - base-heavy050)": {
+    "prefix": "application-color-base-heavy050",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--base-heavy050"
+    ]
+  },
+  "スキーム (Application Color - base-heavy030)": {
+    "prefix": "application-color-base-heavy030",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--base-heavy030"
+    ]
+  },
+  "スキーム (Application Color - base-heavy020)": {
+    "prefix": "application-color-base-heavy020",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--base-heavy020"
+    ]
+  },
+  "スキーム (Application Color - base-heavy015)": {
+    "prefix": "application-color-base-heavy015",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--base-heavy015"
+    ]
+  },
+  "スキーム (Application Color - base-heavy006)": {
+    "prefix": "application-color-base-heavy006",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--base-heavy006"
+    ]
+  },
+  "スキーム (Application Color - base-heavy003)": {
+    "prefix": "application-color-base-heavy003",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--base-heavy003"
+    ]
+  },
+  "スキーム (Application Color - base-regular)": {
+    "prefix": "application-color-base-regular",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--base-regular"
+    ]
+  },
+  "スキーム (Application Color - base-light)": {
+    "prefix": "application-color-base-light",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--base-light"
+    ]
+  },
+  "スキーム (Application Color - base-lighter)": {
+    "prefix": "application-color-base-lighter",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--base-lighter"
+    ]
+  },
+  "スキーム (Application Color - base-weak)": {
+    "prefix": "application-color-base-weak",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--base-weak"
+    ]
+  },
+  "スキーム (Application Color - base-weaker)": {
+    "prefix": "application-color-base-weaker",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--base-weaker"
+    ]
+  },
+  "スキーム (Application Color - primaryAccent-heavy)": {
+    "prefix": "application-color-primaryAccent-heavy",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--primary-accent-heavy"
+    ]
+  },
+  "スキーム (Application Color - primaryAccent-heavy006)": {
+    "prefix": "application-color-primaryAccent-heavy006",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--primary-accent-heavy006"
+    ]
+  },
+  "スキーム (Application Color - primaryAccent-heavy003)": {
+    "prefix": "application-color-primaryAccent-heavy003",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--primary-accent-heavy003"
+    ]
+  },
+  "スキーム (Application Color - primaryAccent-regular)": {
+    "prefix": "application-color-primaryAccent-regular",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--primary-accent-regular"
+    ]
+  },
+  "スキーム (Application Color - primaryAccent-light)": {
+    "prefix": "application-color-primaryAccent-light",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--primary-accent-light"
+    ]
+  },
+  "スキーム (Application Color - primaryAccent-lighter)": {
+    "prefix": "application-color-primaryAccent-lighter",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--primary-accent-lighter"
+    ]
+  },
+  "スキーム (Application Color - primaryAccent-weak)": {
+    "prefix": "application-color-primaryAccent-weak",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--primary-accent-weak"
+    ]
+  },
+  "スキーム (Application Color - primaryAccent-weaker)": {
+    "prefix": "application-color-primaryAccent-weaker",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--primary-accent-weaker"
+    ]
+  },
+  "スキーム (Application Color - secondaryAccent-heavy)": {
+    "prefix": "application-color-secondaryAccent-heavy",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--secondary-accent-heavy"
+    ]
+  },
+  "スキーム (Application Color - secondaryAccent-heavy050)": {
+    "prefix": "application-color-secondaryAccent-heavy050",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--secondary-accent-heavy050"
+    ]
+  },
+  "スキーム (Application Color - secondaryAccent-heavy006)": {
+    "prefix": "application-color-secondaryAccent-heavy006",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--secondary-accent-heavy006"
+    ]
+  },
+  "スキーム (Application Color - secondaryAccent-heavy003)": {
+    "prefix": "application-color-secondaryAccent-heavy003",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--secondary-accent-heavy003"
+    ]
+  },
+  "スキーム (Application Color - secondaryAccent-heavyFocusRing)": {
+    "prefix": "application-color-secondaryAccent-heavyFocusRing",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--secondary-accent-heavy-focus-ring"
+    ]
+  },
+  "スキーム (Application Color - secondaryAccent-regular)": {
+    "prefix": "application-color-secondaryAccent-regular",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--secondary-accent-regular"
+    ]
+  },
+  "スキーム (Application Color - danger-heavy)": {
+    "prefix": "application-color-danger-heavy",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--danger-heavy"
+    ]
+  },
+  "スキーム (Application Color - danger-heavy015)": {
+    "prefix": "application-color-danger-heavy015",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--danger-heavy015"
+    ]
+  },
+  "スキーム (Application Color - danger-heavy006)": {
+    "prefix": "application-color-danger-heavy006",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--danger-heavy006"
+    ]
+  },
+  "スキーム (Application Color - danger-heavy003)": {
+    "prefix": "application-color-danger-heavy003",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--danger-heavy003"
+    ]
+  },
+  "スキーム (Application Color - danger-regular)": {
+    "prefix": "application-color-danger-regular",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--danger-regular"
+    ]
+  },
+  "スキーム (Application Color - success-regular)": {
+    "prefix": "application-color-success-regular",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--success-regular"
+    ]
+  },
+  "スキーム (Application Color - background-regular)": {
+    "prefix": "application-color-background-regular",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--background-regular"
+    ]
+  },
+  "スキーム (Application Color - background-regular090)": {
+    "prefix": "application-color-background-regular090",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--background-regular090"
+    ]
+  },
+  "スキーム (Application Color - background-regular030)": {
+    "prefix": "application-color-background-regular030",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--background-regular030"
+    ]
+  },
+  "スキーム (Application Color - custom-blue)": {
+    "prefix": "application-color-custom-blue",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--custom-blue"
+    ]
+  },
+  "スキーム (Application Color - custom-red)": {
+    "prefix": "application-color-custom-red",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--custom-red"
+    ]
+  },
+  "スキーム (Application Color - custom-yellow)": {
+    "prefix": "application-color-custom-yellow",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--custom-yellow"
+    ]
+  },
+  "スキーム (Application Color - immutable-black)": {
+    "prefix": "application-color-immutable-black",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--immutable-black"
+    ]
+  },
+  "スキーム (Application Color - immutable-black070)": {
+    "prefix": "application-color-immutable-black070",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--immutable-black070"
+    ]
+  },
+  "スキーム (Application Color - immutable-black050)": {
+    "prefix": "application-color-immutable-black050",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--immutable-black050"
+    ]
+  },
+  "スキーム (Application Color - immutable-black030)": {
+    "prefix": "application-color-immutable-black030",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--immutable-black030"
+    ]
+  },
+  "スキーム (Application Color - immutable-black015)": {
+    "prefix": "application-color-immutable-black015",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--immutable-black015"
+    ]
+  },
+  "スキーム (Application Color - immutable-black009)": {
+    "prefix": "application-color-immutable-black009",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--immutable-black009"
+    ]
+  },
+  "スキーム (Application Color - immutable-black006)": {
+    "prefix": "application-color-immutable-black006",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--immutable-black006"
+    ]
+  },
+  "スキーム (Application Color - immutable-black003)": {
+    "prefix": "application-color-immutable-black003",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--immutable-black003"
+    ]
+  },
+  "スキーム (Application Color - immutable-white)": {
+    "prefix": "application-color-immutable-white",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--immutable-white"
+    ]
+  },
+  "スキーム (Application Color - immutable-white090)": {
+    "prefix": "application-color-immutable-white090",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--immutable-white090"
+    ]
+  },
+  "スキーム (Application Color - immutable-white070)": {
+    "prefix": "application-color-immutable-white070",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--immutable-white070"
+    ]
+  },
+  "スキーム (Application Color - immutable-white050)": {
+    "prefix": "application-color-immutable-white050",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--immutable-white050"
+    ]
+  },
+  "スキーム (Application Color - immutable-white030)": {
+    "prefix": "application-color-immutable-white030",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--immutable-white030"
+    ]
+  },
+  "スキーム (Application Color - immutable-white015)": {
+    "prefix": "application-color-immutable-white015",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--immutable-white015"
+    ]
+  },
+  "スキーム (Application Color - immutable-white009)": {
+    "prefix": "application-color-immutable-white009",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-COLOR--immutable-white009"
+    ]
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "スキーム (Application Font - family-basicSanSerif)": {
+    "prefix": "application-font-family-basicSanSerif",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-FONT--family-basic-san-serif"
+    ]
+  },
+  "スキーム (Application Font - family-sanSerif)": {
+    "prefix": "application-font-family-sanSerif",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-FONT--family-san-serif"
+    ]
+  },
+  "スキーム (Application Font - family-monospace)": {
+    "prefix": "application-font-family-monospace",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-FONT--family-monospace"
+    ]
+  },
+  "スキーム (Application Font - weight-regular)": {
+    "prefix": "application-font-weight-regular",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-FONT--weight-regular"
+    ]
+  },
+  "スキーム (Application Font - weight-bold)": {
+    "prefix": "application-font-weight-bold",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-FONT--weight-bold"
+    ]
+  }
+}

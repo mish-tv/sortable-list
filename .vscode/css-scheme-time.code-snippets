@@ -1,0 +1,23 @@
+{
+  "スキーム (Application Time - animationDuration-slow)": {
+    "prefix": "application-time-animationDuration-slow",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-TIME--animation-duration-slow"
+    ]
+  },
+  "スキーム (Application Time - animationDuration-default)": {
+    "prefix": "application-time-animationDuration-default",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-TIME--animation-duration-default"
+    ]
+  },
+  "スキーム (Application Time - animationDuration-fast)": {
+    "prefix": "application-time-animationDuration-fast",
+    "scope": "css",
+    "body": [
+      "--APPLICATION-TIME--animation-duration-fast"
+    ]
+  }
+}

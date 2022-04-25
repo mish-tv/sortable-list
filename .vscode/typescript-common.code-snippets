@@ -1,0 +1,69 @@
+{
+  "Export": {
+    "prefix": "export statement",
+    "scope": "typescript,typescriptreact",
+    "body": ["export { $2 } from \"${1:./}\";"]
+  },
+  "Import modules from @mish/universal-settings": {
+    "prefix": "import mish universal-settings",
+    "scope": "typescript,typescriptreact",
+    "body": ["import { $0 } from \"@mish/universal-settings\";"]
+  },
+  "Import modules from @mish/utilities": {
+    "prefix": "import mish utilities",
+    "scope": "typescript,typescriptreact",
+    "body": ["import { $0 } from \"@mish/utilities\";"]
+  },
+  "Import modules from @mish/locales": {
+    "prefix": "import mish locales",
+    "scope": "typescript,typescriptreact",
+    "body": ["import { $0 } from \"@mish/locales\";"]
+  },
+  "Import modules from @mish/models": {
+    "prefix": "import mish models",
+    "scope": "typescript,typescriptreact",
+    "body": ["import { $0 } from \"@mish/models\";"]
+  },
+  "Import modules from @packages": {
+    "prefix": "import packages",
+    "scope": "typescript,typescriptreact",
+    "body": ["import { $2 } from \"@packages/${1:react}\";"]
+  },
+  "Import modules from @models": {
+    "prefix": "import models",
+    "scope": "typescript,typescriptreact",
+    "body": [
+      "import { $0 } from \"@models/index\";"
+    ]
+  },
+  "Import modules from @stores": {
+    "prefix": "import stores",
+    "scope": "typescript,typescriptreact",
+    "body": ["import { $0 } from \"@stores/index\";"]
+  },
+  "Import modules from @selectors": {
+    "prefix": "import selectors",
+    "scope": "typescript,typescriptreact",
+    "body": ["import { $0 } from \"@selectors/index\";"]
+  },
+  "Import modules from @requests": {
+    "prefix": "import requests",
+    "scope": "typescript,typescriptreact",
+    "body": ["import { $0 } from \"@requests/index\";"]
+  },
+  "Import modules from @foundations": {
+    "prefix": "import foundations",
+    "scope": "typescript,typescriptreact",
+    "body": ["import { $0 } from \"@foundations/index\";"]
+  },
+  "Import modules from @layouts": {
+    "prefix": "import layouts",
+    "scope": "typescript,typescriptreact",
+    "body": ["import { $0 } from \"@layouts/index\";"]
+  },
+  "Import modules from @components": {
+    "prefix": "import components",
+    "scope": "typescript,typescriptreact",
+    "body": ["import { $2 } from \"@components/${1:index}\";"]
+  }
+}

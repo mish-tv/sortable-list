@@ -1,0 +1,81 @@
+{
+  "`.module.css` を読み込むimport文": {
+    "prefix": "import styles",
+    "scope": "typescript,typescriptreact",
+    "body": ["import styles from \"./${TM_FILENAME/(\\..+tsx)$//}.module.css\";"]
+  },
+  "Presentational Component テンプレート": {
+    "prefix": "component template",
+    "scope": "typescriptreact",
+    "body": [
+      "import { StandardProps, useI18n } from \"@web/components\";",
+      "",
+      "import { classnames } from \"@packages/react\";",
+      "",
+      "import { ${TM_FILENAME/(^\\w+)?\\-?(\\w+)?(\\..+$)?/$1${2:/capitalize}/g}Locale } from \"./${TM_FILENAME/(^\\w+)?(\\-)?(\\w+)?(\\..+$)?/$1$2$3/g}.locale\";",
+      "import styles from \"./${TM_FILENAME/(^\\w+)?(\\-)?(\\w+)?(\\..+$)?/$1$2$3/g}.module.css\";",
+      "",
+      "type Props = Readonly<{",
+      "  $1",
+      "}> & Pick<StandardProps, \"wrapperClassName\">;",
+      "",
+      "export const ${TM_FILENAME/(^\\w+)?\\-?(\\w+)?(\\..+$)?/${1:/capitalize}${2:/capitalize}/g}Component = (props: Props) => {",
+      "  const [t] = useI18n();",
+      "",
+      "  return (",
+      "    <div className={classnames(styles.wrapper, props.wrapperClassName)}>",
+      "      $2",
+      "    </div>",
+      "  );",
+      "};",
+      ""
+    ]
+  },
+  "Container Component テンプレート": {
+    "prefix": "container template",
+    "scope": "typescriptreact",
+    "body": [
+      "import { ${TM_FILENAME/(^\\w+)?\\-?(\\w+)?(\\..+$)?/${1:/capitalize}${2:/capitalize}/g}Component } from \"./${TM_FILENAME/(^\\w+)?(\\-)?(\\w+)?(\\..+$)?/$1$2$3/g}.component\";",
+      "",
+      "type Props = Except<React.ComponentProps<typeof ${TM_FILENAME/(^\\w+)?\\-?(\\w+)?(\\..+$)?/${1:/capitalize}${2:/capitalize}/g}Component>, $1>;",
+      "",
+      "export const ${TM_FILENAME/(^\\w+)?\\-?(\\w+)?(\\..+$)?/${1:/capitalize}${2:/capitalize}/g}Container = (props: Props) => {",
+      "  $2",
+      "",
+      "  return <${TM_FILENAME/(^\\w+)?\\-?(\\w+)?(\\..+$)?/${1:/capitalize}${2:/capitalize}/g}Component {...props} />;",
+      "};",
+      ""
+    ]
+  },
+  "Storybookテンプレート": {
+    "prefix": "component stories template for storybook",
+    "scope": "typescriptreact",
+    "body": [
+      "import { Meta, Story } from \"@packages/react\";",
+      "",
+      "import { ${TM_FILENAME/(^\\w+)?\\-?(\\w+)?(\\..+$)?/${1:/capitalize}${2:/capitalize}/g}Component } from \"./${TM_FILENAME/(^\\w+)?(\\-)?(\\w+)?(\\..+$)?/$1$2$3/g}.component\";",
+      "",
+      "type Props = React.ComponentProps<typeof ${TM_FILENAME/(^\\w+)?\\-?(\\w+)?(\\..+$)?/${1:/capitalize}${2:/capitalize}/g}Component>;",
+      "",
+      "export default {",
+      "  title: \"${TM_DIRECTORY/(.*?components\\/)?\\/?(\\w+)(\\-)?/${2:/capitalize}${3:? :\/}/g}${TM_FILENAME/(^\\w+)?(\\-)?(\\w+)?(\\..+$)?/${1:/capitalize}${2:+ }${3:/capitalize}/g}\",",
+      "  component: ${TM_FILENAME/(^\\w+)?\\-?(\\w+)?(\\..+$)?/${1:/capitalize}${2:/capitalize}/g}Component,",
+      "} as Meta<Props>;",
+      "",
+      "const Template: Story<Props> = (args) => <${TM_FILENAME/(^\\w+)?\\-?(\\w+)?(\\..+$)?/${1:/capitalize}${2:/capitalize}/g}Component {...args} />;",
+      "",
+      "export const Default = Template.bind({});",
+      "Default.args = {",
+      "  $2",
+      "};",
+      ""
+    ]
+  },
+  "Storybook用のストーリー名": {
+    "prefix": "component story name for storybook",
+    "scope": "typescriptreact",
+    "body": [
+      "${TM_DIRECTORY/(.*?src\\/)?\\/?(\\w+)(\\-)?/${2:/capitalize}${3:? :\/}/g}${TM_FILENAME/(^\\w+)?(\\-)?(\\w+)?(\\..+$)?/${1:/capitalize}${2:+ }${3:/capitalize}/g}",
+    ]
+  }
+}
