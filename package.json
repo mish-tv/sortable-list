@@ -2,11 +2,12 @@
   "name": "@mish-tv/sortable-list",
   "version": "0.0.1",
   "description": "",
-  "main": "lib/cjs/index.js",
-  "module": "lib/esm/index.js",
+  "main": "lib/cjs/index.jsx",
+  "module": "lib/esm/index.jsx",
   "scripts": {
     "prebuild": "rm -rf ./lib",
     "build": "tsc -b ./tsconfig.build.json ./tsconfig.build-cjs.json",
+    "watch": "tsc -b ./tsconfig.build.json ./tsconfig.build-cjs.json --watch",
     "lint": "tsc --noEmit && eslint \"./src/**/*.ts\"",
     "fix:ts": "eslint --fix \"./src/**/*.ts\"",
     "test": "jest",
@@ -28,6 +29,7 @@
     "@types/jest": "^27.4.1",
     "@types/jest-plugin-context": "^2.9.4",
     "@types/node": "^16.11.28",
+    "@types/react": "^16.8.25",
     "@typescript-eslint/eslint-plugin": "^5.20.0",
     "@typescript-eslint/parser": "^5.20.0",
     "codecov": "^3.8.2",
@@ -40,11 +42,16 @@
     "jest-cli": "^28.0.0",
     "jest-plugin-context": "^2.9.0",
     "prettier": "^2.6.2",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0",
     "regenerator-runtime": "^0.13.9",
     "stylelint": "^14.7.1",
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-order": "^5.0.0",
     "typescript": "^4.6.3"
   },
-  "dependencies": {}
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  }
 }

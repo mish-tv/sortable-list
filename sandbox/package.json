@@ -1,0 +1,21 @@
+{
+  "name": "@mish-tv/sortable-list-playground",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "parcel --no-cache index.html"
+  },
+  "alias": {
+    "@mish-tv/sortable-list": "..",
+    "react": "../node_modules/react",
+    "react-dom": "../node_modules/react-dom"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/react": "^16.8.25",
+    "@types/react-dom": "^16.8.4",
+    "parcel": "^2.5.0",
+    "typescript": "^4.6.3"
+  }
+}

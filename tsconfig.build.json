@@ -3,9 +3,5 @@
   "compilerOptions": {
     "noEmit": false,
     "outDir": "./lib/esm"
-  },
-  "exclude": [
-    "./**/node_modules",
-    "./src/**/*.spec.ts"
-  ]
+  }
 }
