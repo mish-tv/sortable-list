@@ -14,7 +14,12 @@ const App = () => {
 
   const row: RowCreator<Item> = React.useCallback(
     (item, rowAttributes, handleAttributes) => (
-      <tr {...rowAttributes} {...handleAttributes}>
+      <tr {...rowAttributes}>
+        <td>
+          <button type="button" {...handleAttributes}>
+            ⣿
+          </button>
+        </td>
         <td>{item.id}</td>
         <td>{item.body}</td>
       </tr>
