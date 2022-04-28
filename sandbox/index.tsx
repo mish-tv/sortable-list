@@ -1,17 +1,20 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { SortableList } from "@mish-tv/sortable-list";
+import { RowCreator, SortableList } from "@mish-tv/sortable-list";
 
 type Item = { id: number; body: string };
+const bodies = ["foo", "bar", "baz"];
 
 const App = () => {
-  const [items] = React.useState<Item[]>([
-    { id: 1, body: "hello" },
-    { id: 2, body: "world" },
-  ]);
-  const cell = React.useCallback(
-    (item: Item) => (
-      <tr>
+  const [items] = React.useState<Item[]>(
+    Array(100)
+      .fill(0)
+      .map((_, i) => ({ id: i, body: bodies[i % 3] })),
+  );
+
+  const row: RowCreator<Item> = React.useCallback(
+    (item, rowAttributes, handleAttributes) => (
+      <tr {...rowAttributes} {...handleAttributes}>
         <td>{item.id}</td>
         <td>{item.body}</td>
       </tr>
@@ -22,7 +25,7 @@ const App = () => {
   return (
     <table>
       <tbody>
-        <SortableList items={items} cell={cell} />
+        <SortableList items={items} row={row} />
       </tbody>
     </table>
   );

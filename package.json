@@ -2,8 +2,8 @@
   "name": "@mish-tv/sortable-list",
   "version": "0.0.1",
   "description": "",
-  "main": "lib/cjs/index.jsx",
-  "module": "lib/esm/index.jsx",
+  "main": "lib/cjs/index.js",
+  "module": "lib/esm/index.js",
   "scripts": {
     "prebuild": "rm -rf ./lib",
     "build": "tsc -b ./tsconfig.build.json ./tsconfig.build-cjs.json",
