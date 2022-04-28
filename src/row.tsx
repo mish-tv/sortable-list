@@ -2,7 +2,7 @@ import React from "react";
 
 import { DocumentEventListener } from "./document-event-listener";
 
-import { HandleAttributes, Item, RowAttributes, RowCreator, Vector } from "./shared";
+import { HandleAttributes, Item, RowAttributes, RowCreator } from "./shared";
 
 type Props<I extends Item> = Readonly<{
   item: I;
@@ -10,28 +10,27 @@ type Props<I extends Item> = Readonly<{
 }>;
 
 export const Row = <I extends Item>(props: Props<I>) => {
-  const [mouseDownPositionState, setMouseDownPositionState] = React.useState<Vector>();
+  const [mouseDownPositionYState, setMouseDownPositionYState] = React.useState<number>();
   const [rowStyleState, setRowStyleState] = React.useState<RowAttributes["style"]>({});
 
   const onMouseDown: HandleAttributes["onMouseDown"] = React.useCallback((event) => {
-    setMouseDownPositionState({ x: event.pageX, y: event.pageY });
+    setMouseDownPositionYState(event.pageY);
   }, []);
 
   const onMouseMove = React.useMemo(() => {
-    if (mouseDownPositionState == undefined) return undefined;
+    if (mouseDownPositionYState == undefined) return undefined;
 
     return (event: MouseEvent) => {
-      const x = event.pageX - mouseDownPositionState.x;
-      const y = event.pageY - mouseDownPositionState.y;
-      setRowStyleState({ transform: `translate(${x}px, ${y}px)` });
+      const y = event.pageY - mouseDownPositionYState;
+      setRowStyleState({ transform: `translate(0, ${y}px)` });
     };
-  }, [mouseDownPositionState]);
+  }, [mouseDownPositionYState]);
 
   const onMouseUp = React.useMemo(() => {
-    if (mouseDownPositionState == undefined) return undefined;
+    if (mouseDownPositionYState == undefined) return undefined;
 
-    return () => setMouseDownPositionState(undefined);
-  }, [mouseDownPositionState]);
+    return () => setMouseDownPositionYState(undefined);
+  }, [mouseDownPositionYState]);
 
   const rowAttributes: RowAttributes = React.useMemo(() => ({ style: rowStyleState }), [rowStyleState]);
   const handleAttributes: HandleAttributes = React.useMemo(() => ({ onMouseDown }), [onMouseDown]);
