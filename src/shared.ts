@@ -1,12 +1,10 @@
 export type Item = { id: React.Key };
 
 export type HandleAttributes = NonNullables<Pick<React.DOMAttributes<any>, "onMouseDown">>;
-export type RowAttributes = NonNullables<Pick<React.HTMLAttributes<any>, "style">>;
+export type RowAttributes<Row> = NonNullables<Pick<React.HTMLAttributes<any>, "style">> & React.RefAttributes<Row>;
 
-export type RowCreator<I extends Item> = (
+export type RowCreator<Row extends HTMLElement, I extends Item> = (
   item: I,
-  rowAttributes: RowAttributes,
+  rowAttributes: RowAttributes<Row>,
   handleAttributes: HandleAttributes,
 ) => React.ReactNode;
-
-export type Vector = { x: number; y: number };

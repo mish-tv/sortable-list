@@ -12,7 +12,7 @@ const App = () => {
       .map((_, i) => ({ id: i, body: bodies[i % 3] })),
   );
 
-  const row: RowCreator<Item> = React.useCallback(
+  const row: RowCreator<HTMLTableRowElement, Item> = React.useCallback(
     (item, rowAttributes, handleAttributes) => (
       <tr {...rowAttributes}>
         <td>

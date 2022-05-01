@@ -1,17 +1,18 @@
 import React from "react";
-
 import { DocumentEventListener } from "./document-event-listener";
 
 import { HandleAttributes, Item, RowAttributes, RowCreator } from "./shared";
 
-type Props<I extends Item> = Readonly<{
+type Props<Row extends HTMLElement, I extends Item> = Readonly<{
   item: I;
-  row: RowCreator<I>;
+  row: RowCreator<Row, I>;
+  onDrag: (item: I, y: number) => void;
+  updateOffsetTop: (item: I, top: number) => void;
 }>;
 
-export const Row = <I extends Item>(props: Props<I>) => {
+export const Row = <Row extends HTMLElement, I extends Item>(props: Props<Row, I>) => {
   const [mouseDownPositionYState, setMouseDownPositionYState] = React.useState<number>();
-  const [rowStyleState, setRowStyleState] = React.useState<RowAttributes["style"]>({});
+  const [rowStyleState, setRowStyleState] = React.useState<RowAttributes<Row>["style"]>({});
 
   const onMouseDown: HandleAttributes["onMouseDown"] = React.useCallback((event) => {
     setMouseDownPositionYState(event.pageY);
@@ -22,9 +23,10 @@ export const Row = <I extends Item>(props: Props<I>) => {
 
     return (event: MouseEvent) => {
       const y = event.pageY - mouseDownPositionYState;
+      props.onDrag(props.item, y);
       setRowStyleState({ transform: `translate(0, ${y}px)` });
     };
-  }, [mouseDownPositionYState]);
+  }, [props.item, props.onDrag, mouseDownPositionYState]);
 
   const onMouseUp = React.useMemo(() => {
     if (mouseDownPositionYState == undefined) return undefined;
@@ -32,7 +34,9 @@ export const Row = <I extends Item>(props: Props<I>) => {
     return () => setMouseDownPositionYState(undefined);
   }, [mouseDownPositionYState]);
 
-  const rowAttributes: RowAttributes = React.useMemo(() => ({ style: rowStyleState }), [rowStyleState]);
+  const ref = React.useCallback((ref: Row) => props.updateOffsetTop(props.item, ref.offsetTop), [props.item]);
+
+  const rowAttributes: RowAttributes<Row> = React.useMemo(() => ({ style: rowStyleState, ref }), [rowStyleState, ref]);
   const handleAttributes: HandleAttributes = React.useMemo(() => ({ onMouseDown }), [onMouseDown]);
 
   return (
