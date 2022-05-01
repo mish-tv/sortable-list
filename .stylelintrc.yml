@@ -3,15 +3,11 @@ extends:
 plugins:
   - "stylelint-order"
 rules:
-
   # ----------------------------------------------------------------------------------------------------------------------------
   # Default Rules
   # ----------------------------------------------------------------------------------------------------------------------------
   # Specify a blacklist of disallowed at-rules.
   at-rule-blacklist: ~
-  # Require or disallow an empty line before at-rules (Autofixable).
-  at-rule-empty-line-before:
-    - "never"
   # Specify lowercase or uppercase for at-rules names (Autofixable).
   at-rule-name-case: "lower"
   # Require a newline after at-rule names.
@@ -131,7 +127,7 @@ rules:
   # Require numeric or named (where possible) font-weight values.
   font-weight-notation: "named-where-possible"
   # Disallow duplicate font family names.
-  font-family-no-duplicate-names:  true
+  font-family-no-duplicate-names: true
   # Disallow missing generic families in lists of font family names.
   font-family-no-missing-generic-family-keyword: true
   # Specify a blacklist of disallowed functions.
@@ -235,8 +231,6 @@ rules:
   no-extra-semicolons: true
   # Disallow double-slash comments ( `//...` ) which are not supported by CSS.
   no-invalid-double-slash-comments: true
-  # Disallow missing end-of-source newlines (Autofixable).
-  no-missing-end-of-source-newline: false
   # Disallow unknown animations.
   no-unknown-animations: true
   # Require or disallow a leading zero for fractional numbers less than 1 (Autofixable).
@@ -414,15 +408,13 @@ rules:
   # Disallow vendor prefixes for values.
   value-no-vendor-prefix: true
 
-
   # ----------------------------------------------------------------------------------------------------------------------------
   # stylelint-order
   # ----------------------------------------------------------------------------------------------------------------------------
   # For more detail, https://github.com/hudochenkov/stylelint-order .
   # ----------------------------------------------------------------------------------------------------------------------------
   "order/order":
-    -
-      - "custom-properties"
+    - - "custom-properties"
       - "declarations"
       - "rules"
       - "at-rules"

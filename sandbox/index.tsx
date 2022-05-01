@@ -2,37 +2,33 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { RowCreator, SortableList } from "@mish-tv/sortable-list";
 
-type Item = { id: number; body: string };
+type Item = { id: number; body: string; height: number };
 const bodies = ["foo", "bar", "baz"];
 
 const App = () => {
   const [items, setItems] = React.useState<Item[]>(
     Array(10)
       .fill(0)
-      .map((_, i) => ({ id: i, body: bodies[i % 3] })),
+      .map((_, i) => ({ id: i, body: bodies[i % 3], height: 20 + (i % 3) * 20 })),
   );
 
-  const row: RowCreator<HTMLTableRowElement, Item> = React.useCallback(
+  const row: RowCreator<HTMLLIElement, Item> = React.useCallback(
     (item, rowAttributes, handleAttributes) => (
-      <tr {...rowAttributes}>
-        <td>
-          <button type="button" {...handleAttributes}>
-            ⣿
-          </button>
-        </td>
-        <td>{item.id}</td>
-        <td>{item.body}</td>
-      </tr>
+      <li className="row" {...rowAttributes} style={{ ...rowAttributes.style, height: item.height }}>
+        <button type="button" {...handleAttributes}>
+          ⣿
+        </button>
+        <span>{item.id}</span>
+        <span>{item.body}</span>
+      </li>
     ),
     [],
   );
 
   return (
-    <table>
-      <tbody>
-        <SortableList items={items} setItems={setItems} row={row} />
-      </tbody>
-    </table>
+    <ul className="list">
+      <SortableList items={items} setItems={setItems} row={row} />
+    </ul>
   );
 };
 
