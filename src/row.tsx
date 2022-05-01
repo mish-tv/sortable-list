@@ -52,7 +52,7 @@ export const Row = <Row extends HTMLElement, I extends Item>(props: Props<Row, I
     if (translateYState != undefined) return { transform: `translate(0, ${translateYState}px)` };
 
     return {
-      transform: `translate(0, ${props.translateY}px)`,
+      transform: props.translateY !== 0 ? `translate(0, ${props.translateY}px)` : undefined,
       transition: props.isDraggingAny ? "transform 0.1s" : undefined,
     };
   }, [props.translateY, props.isDraggingAny, translateYState]);
