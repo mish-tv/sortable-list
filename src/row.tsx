@@ -6,7 +6,9 @@ import { HandleAttributes, Item, RowAttributes, RowCreator } from "./shared";
 type Props<Row extends HTMLElement, I extends Item> = Readonly<{
   item: I;
   row: RowCreator<Row, I>;
+  onStartDragging: (item: I) => void;
   onDrag: (item: I, y: number) => void;
+  onFinishDragging: (item: I) => void;
   updateOffsetTop: (item: I, top: number) => void;
 }>;
 
@@ -14,9 +16,13 @@ export const Row = <Row extends HTMLElement, I extends Item>(props: Props<Row, I
   const [mouseDownPositionYState, setMouseDownPositionYState] = React.useState<number>();
   const [rowStyleState, setRowStyleState] = React.useState<RowAttributes<Row>["style"]>({});
 
-  const onMouseDown: HandleAttributes["onMouseDown"] = React.useCallback((event) => {
-    setMouseDownPositionYState(event.pageY);
-  }, []);
+  const onMouseDown: HandleAttributes["onMouseDown"] = React.useCallback(
+    (event) => {
+      props.onStartDragging(props.item);
+      setMouseDownPositionYState(event.pageY);
+    },
+    [props.item, props.onStartDragging],
+  );
 
   const onMouseMove = React.useMemo(() => {
     if (mouseDownPositionYState == undefined) return undefined;
@@ -31,8 +37,11 @@ export const Row = <Row extends HTMLElement, I extends Item>(props: Props<Row, I
   const onMouseUp = React.useMemo(() => {
     if (mouseDownPositionYState == undefined) return undefined;
 
-    return () => setMouseDownPositionYState(undefined);
-  }, [mouseDownPositionYState]);
+    return () => {
+      props.onFinishDragging(props.item);
+      setMouseDownPositionYState(undefined);
+    };
+  }, [props.item, props.onFinishDragging, mouseDownPositionYState]);
 
   const ref = React.useCallback((ref: Row) => props.updateOffsetTop(props.item, ref.offsetTop), [props.item]);
 
