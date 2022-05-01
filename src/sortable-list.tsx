@@ -13,7 +13,7 @@ export const SortableList = <Row extends HTMLElement, I extends Item>(props: Pro
     () => props.items.reduce((previous, current, i) => ({ ...previous, [current.id]: i }), {} as Record<React.Key, number>),
     [props.items],
   );
-  const offsetTopValues = React.useRef<Record<React.Key, number>>({});
+  const offsetTopValues = React.useRef<Record<number, number>>({});
   const [currentDraggedIndexState, setCurrentDraggedIndexState] = React.useState<number>();
   const draggingItemId = React.useRef<React.Key>();
 
@@ -25,9 +25,9 @@ export const SortableList = <Row extends HTMLElement, I extends Item>(props: Pro
     (item: I, y: number) => {
       const index = idToIndex[item.id];
       const draggedIndex = currentDraggedIndexState ?? index;
-      const draggingOffset = offsetTopValues.current[item.id] + y;
-      const upOffset = offsetTopValues.current[props.items[draggedIndex - 1].id];
-      const downOffset = offsetTopValues.current[props.items[draggedIndex + 1].id];
+      const draggingOffset = offsetTopValues.current[index] + y;
+      const upOffset = offsetTopValues.current[draggedIndex - 1];
+      const downOffset = offsetTopValues.current[draggedIndex + 1];
 
       if (draggingOffset < upOffset) {
         setCurrentDraggedIndexState(draggedIndex - 1);
@@ -48,51 +48,46 @@ export const SortableList = <Row extends HTMLElement, I extends Item>(props: Pro
     offsetTopValues.current = { ...offsetTopValues.current, [item.id]: top };
   }, []);
 
-  const itemIndexToPresentIndex = React.useMemo<(i: number) => number>(() => {
-    if (draggingItemId.current == undefined || currentDraggedIndexState == undefined) return (i) => i;
+  const itemIndexToTranslateY = React.useMemo<(i: number) => number>(() => {
+    if (draggingItemId.current == undefined || currentDraggedIndexState == undefined) return () => 0;
 
     const draggingItemIndex = idToIndex[draggingItemId.current];
 
     if (draggingItemIndex < currentDraggedIndexState) {
       return (i) => {
-        if (i < draggingItemIndex || currentDraggedIndexState < i) return i;
-        if (i === draggingItemIndex) return currentDraggedIndexState;
+        if (i < draggingItemIndex || currentDraggedIndexState < i) return 0;
+        if (i === draggingItemIndex) return 0;
 
-        return i - 1;
+        return offsetTopValues.current[i - 1] - offsetTopValues.current[i];
       };
     }
     if (draggingItemIndex > currentDraggedIndexState) {
       return (i) => {
-        if (i < currentDraggedIndexState || draggingItemIndex < i) return i;
-        if (i === draggingItemIndex) return currentDraggedIndexState;
+        if (i < currentDraggedIndexState || draggingItemIndex < i) return 0;
+        if (i === draggingItemIndex) return 0;
 
-        return i + 1;
+        return offsetTopValues.current[i + 1] - offsetTopValues.current[i];
       };
     }
 
-    return (i) => i;
+    return () => 0;
   }, [currentDraggedIndexState]);
 
   const rows = React.useMemo(
     () =>
-      props.items.map((item, i) => {
-        if (i !== itemIndexToPresentIndex(i)) {
-          console.info(i, itemIndexToPresentIndex(i));
-        }
-
-        return (
-          <Row
-            key={item.id}
-            item={item}
-            row={props.row}
-            updateOffsetTop={updateOffsetTop}
-            onStartDragging={onStartDragging}
-            onDrag={onDrag}
-            onFinishDragging={onFinishDragging}
-          />
-        );
-      }),
-    [props.items, props.row, onDrag, itemIndexToPresentIndex],
+      props.items.map((item, i) => (
+        <Row
+          key={item.id}
+          item={item}
+          translateY={itemIndexToTranslateY(i)}
+          row={props.row}
+          updateOffsetTop={updateOffsetTop}
+          onStartDragging={onStartDragging}
+          onDrag={onDrag}
+          onFinishDragging={onFinishDragging}
+        />
+      )),
+    [props.items, props.row, onDrag, itemIndexToTranslateY],
   );
 
   return <>{rows}</>;

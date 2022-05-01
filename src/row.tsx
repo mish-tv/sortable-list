@@ -5,6 +5,7 @@ import { HandleAttributes, Item, RowAttributes, RowCreator } from "./shared";
 
 type Props<Row extends HTMLElement, I extends Item> = Readonly<{
   item: I;
+  translateY: number;
   row: RowCreator<Row, I>;
   onStartDragging: (item: I) => void;
   onDrag: (item: I, y: number) => void;
@@ -14,7 +15,7 @@ type Props<Row extends HTMLElement, I extends Item> = Readonly<{
 
 export const Row = <Row extends HTMLElement, I extends Item>(props: Props<Row, I>) => {
   const [mouseDownPositionYState, setMouseDownPositionYState] = React.useState<number>();
-  const [rowStyleState, setRowStyleState] = React.useState<RowAttributes<Row>["style"]>({});
+  const [translateYState, setTranslateYState] = React.useState<number>();
 
   const onMouseDown: HandleAttributes["onMouseDown"] = React.useCallback(
     (event) => {
@@ -30,7 +31,7 @@ export const Row = <Row extends HTMLElement, I extends Item>(props: Props<Row, I
     return (event: MouseEvent) => {
       const y = event.pageY - mouseDownPositionYState;
       props.onDrag(props.item, y);
-      setRowStyleState({ transform: `translate(0, ${y}px)` });
+      setTranslateYState(y);
     };
   }, [props.item, props.onDrag, mouseDownPositionYState]);
 
@@ -40,12 +41,22 @@ export const Row = <Row extends HTMLElement, I extends Item>(props: Props<Row, I
     return () => {
       props.onFinishDragging(props.item);
       setMouseDownPositionYState(undefined);
+      setTranslateYState(undefined);
     };
   }, [props.item, props.onFinishDragging, mouseDownPositionYState]);
 
   const ref = React.useCallback((ref: Row) => props.updateOffsetTop(props.item, ref.offsetTop), [props.item]);
 
-  const rowAttributes: RowAttributes<Row> = React.useMemo(() => ({ style: rowStyleState, ref }), [rowStyleState, ref]);
+  const style: RowAttributes<Row>["style"] = React.useMemo(() => {
+    if (translateYState != undefined) return { transform: `translate(0, ${translateYState}px)` };
+
+    return {
+      transform: `translate(0, ${props.translateY}px)`,
+      transition: "transform 0.1s",
+    };
+  }, [props.translateY, translateYState]);
+
+  const rowAttributes: RowAttributes<Row> = React.useMemo(() => ({ style, ref }), [style, ref]);
   const handleAttributes: HandleAttributes = React.useMemo(() => ({ onMouseDown }), [onMouseDown]);
 
   return (
