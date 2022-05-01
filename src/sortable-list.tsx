@@ -17,8 +17,10 @@ export const SortableList = <Row extends HTMLElement, I extends Item>(props: Pro
   const offsetTopValues = React.useRef<Record<number, number>>({});
   const [currentDraggedIndexState, setCurrentDraggedIndexState] = React.useState<number>();
   const draggingItemId = React.useRef<React.Key>();
+  const [isDragging, setIsDragging] = React.useState(false);
 
   const onStartDragging = React.useCallback((item: I) => {
+    setIsDragging(true);
     draggingItemId.current = item.id;
   }, []);
 
@@ -50,10 +52,11 @@ export const SortableList = <Row extends HTMLElement, I extends Item>(props: Pro
     const [item] = items.splice(draggingItemIndex, 1);
     items.splice(currentDraggedIndexState, 0, item);
 
-    return items;
-  }, [currentDraggedIndexState]);
+    props.setItems(items);
+  }, [props.setItems, currentDraggedIndexState]);
 
   const onFinishDragging = React.useCallback(() => {
+    setIsDragging(false);
     setItems();
     draggingItemId.current = undefined;
     setCurrentDraggedIndexState(undefined);
@@ -95,6 +98,7 @@ export const SortableList = <Row extends HTMLElement, I extends Item>(props: Pro
           key={item.id}
           item={item}
           translateY={itemIndexToTranslateY(i)}
+          isDraggingAny={isDragging}
           row={props.row}
           updateOffsetTop={updateOffsetTop}
           onStartDragging={onStartDragging}
@@ -102,7 +106,7 @@ export const SortableList = <Row extends HTMLElement, I extends Item>(props: Pro
           onFinishDragging={onFinishDragging}
         />
       )),
-    [props.items, props.row, onDrag, itemIndexToTranslateY],
+    [props.items, props.row, isDragging, onDrag, itemIndexToTranslateY],
   );
 
   return <>{rows}</>;

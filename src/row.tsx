@@ -6,6 +6,7 @@ import { HandleAttributes, Item, RowAttributes, RowCreator } from "./shared";
 type Props<Row extends HTMLElement, I extends Item> = Readonly<{
   item: I;
   translateY: number;
+  isDraggingAny: boolean;
   row: RowCreator<Row, I>;
   onStartDragging: (item: I) => void;
   onDrag: (item: I, y: number) => void;
@@ -52,9 +53,9 @@ export const Row = <Row extends HTMLElement, I extends Item>(props: Props<Row, I
 
     return {
       transform: `translate(0, ${props.translateY}px)`,
-      transition: "transform 0.1s",
+      transition: props.isDraggingAny ? "transform 0.1s" : undefined,
     };
-  }, [props.translateY, translateYState]);
+  }, [props.translateY, props.isDraggingAny, translateYState]);
 
   const rowAttributes: RowAttributes<Row> = React.useMemo(() => ({ style, ref }), [style, ref]);
   const handleAttributes: HandleAttributes = React.useMemo(() => ({ onMouseDown }), [onMouseDown]);

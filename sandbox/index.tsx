@@ -27,8 +27,6 @@ const App = () => {
     [],
   );
 
-  console.info(items.map(({ id }) => id));
-
   return (
     <table>
       <tbody>
