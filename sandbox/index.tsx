@@ -6,8 +6,8 @@ type Item = { id: number; body: string };
 const bodies = ["foo", "bar", "baz"];
 
 const App = () => {
-  const [items] = React.useState<Item[]>(
-    Array(100)
+  const [items, setItems] = React.useState<Item[]>(
+    Array(10)
       .fill(0)
       .map((_, i) => ({ id: i, body: bodies[i % 3] })),
   );
@@ -27,10 +27,12 @@ const App = () => {
     [],
   );
 
+  console.info(items.map(({ id }) => id));
+
   return (
     <table>
       <tbody>
-        <SortableList items={items} row={row} />
+        <SortableList items={items} setItems={setItems} row={row} />
       </tbody>
     </table>
   );

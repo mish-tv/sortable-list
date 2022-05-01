@@ -5,6 +5,7 @@ import { Item, RowCreator } from "./shared";
 
 type Props<Row extends HTMLElement, I extends Item> = Readonly<{
   items: I[];
+  setItems: (items: I[]) => void;
   row: RowCreator<Row, I>;
 }>;
 
@@ -39,10 +40,24 @@ export const SortableList = <Row extends HTMLElement, I extends Item>(props: Pro
     [idToIndex, currentDraggedIndexState],
   );
 
+  const setItems = React.useCallback(() => {
+    if (draggingItemId.current == undefined || currentDraggedIndexState == undefined) return;
+
+    const draggingItemIndex = idToIndex[draggingItemId.current];
+    if (draggingItemIndex === currentDraggedIndexState) return;
+
+    const items = [...props.items];
+    const [item] = items.splice(draggingItemIndex, 1);
+    items.splice(currentDraggedIndexState, 0, item);
+
+    return items;
+  }, [currentDraggedIndexState]);
+
   const onFinishDragging = React.useCallback(() => {
+    setItems();
     draggingItemId.current = undefined;
     setCurrentDraggedIndexState(undefined);
-  }, []);
+  }, [setItems]);
 
   const updateOffsetTop = React.useCallback((item: I, top: number) => {
     offsetTopValues.current = { ...offsetTopValues.current, [item.id]: top };
