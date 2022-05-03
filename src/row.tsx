@@ -46,16 +46,24 @@ export const Row = forwardRef(<Row extends HTMLElement, I extends Item>(props: P
     };
   }, [props.item, props.onFinishDragging, mouseDownPositionYState]);
 
-  const style: RowAttributes<Row>["style"] = React.useMemo(() => {
-    if (translateYState != undefined) return { transform: `translate(0, ${translateYState}px)` };
+  const { style, translateY }: { style: RowAttributes<Row>["style"]; translateY: number } = React.useMemo(() => {
+    if (translateYState != undefined) {
+      return { style: { transform: `translate(0, ${translateYState}px)` }, translateY: translateYState };
+    }
 
     return {
-      transform: props.translateY !== 0 ? `translate(0, ${props.translateY}px)` : undefined,
-      transition: props.isDraggingAny ? "transform 0.1s" : undefined,
+      style: {
+        transform: props.translateY !== 0 ? `translate(0, ${props.translateY}px)` : undefined,
+        transition: props.isDraggingAny ? "transform 0.1s" : undefined,
+      },
+      translateY: props.translateY,
     };
   }, [props.translateY, props.isDraggingAny, translateYState]);
 
-  const rowAttributes: RowAttributes<Row> = React.useMemo(() => ({ style, ref }), [style, ref]);
+  const rowAttributes: RowAttributes<Row> = React.useMemo(
+    () => ({ style, ref, "sortable-list-translate-y": translateY === 0 ? undefined : translateY }),
+    [ref, style, translateY],
+  );
   const handleAttributes: HandleAttributes = React.useMemo(() => ({ onMouseDown }), [onMouseDown]);
 
   return (

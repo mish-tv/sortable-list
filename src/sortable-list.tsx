@@ -9,6 +9,19 @@ type Props<Row extends HTMLElement, I extends Item> = Readonly<{
   row: RowCreator<Row, I>;
 }>;
 
+// getBoundingClientRect cannot be used because it correctly reflects the position even during CSS transitions.
+const getDOMPosition = (dom: Nullable<HTMLElement> | null) => {
+  if (dom == undefined) return undefined;
+
+  const transformYString = dom.getAttribute("sortable-list-translate-y");
+  const transformY = transformYString == undefined ? 0 : Number(transformYString);
+
+  const top = dom.offsetTop + transformY;
+  const bottom = top + dom.clientHeight;
+
+  return { top, bottom };
+};
+
 export const SortableList = <Row extends HTMLElement, I extends Item>(props: Props<Row, I>) => {
   const [currentDraggedIndexState, setCurrentDraggedIndexState] = React.useState<number>();
   const [draggingItemIdState, setDraggingItemId] = React.useState<React.Key>();
@@ -54,8 +67,8 @@ export const SortableList = <Row extends HTMLElement, I extends Item>(props: Pro
     (item: I) => {
       const index = idToIndex[item.id];
 
-      const draggingDOMRect = rowRefs.current[index].current?.getBoundingClientRect();
-      if (draggingDOMRect == undefined) return;
+      const draggingDOMPosition = getDOMPosition(rowRefs.current[index].current);
+      if (draggingDOMPosition == undefined) return;
 
       const [upIndex, downIndex] = (() => {
         if (currentDraggedIndexState == undefined) return [index - 1, index + 1];
@@ -64,15 +77,15 @@ export const SortableList = <Row extends HTMLElement, I extends Item>(props: Pro
 
         return [index - 1, index + 1];
       })();
-      const draggedIndex = currentDraggedIndexState ?? index;
-      const upDOMRect = rowRefs.current[upIndex]?.current?.getBoundingClientRect();
-      const downDOMRect = rowRefs.current[downIndex]?.current?.getBoundingClientRect();
 
-      if (upDOMRect != undefined && draggingDOMRect.top < upDOMRect.top) {
-        setCurrentDraggedIndexState(draggedIndex - 1);
+      const upDOMPosition = getDOMPosition(rowRefs.current[upIndex]?.current);
+      const downDOMPosition = getDOMPosition(rowRefs.current[downIndex]?.current);
+
+      if (upDOMPosition != undefined && draggingDOMPosition.top < upDOMPosition.top) {
+        setCurrentDraggedIndexState((currentDraggedIndexState ?? index) - 1);
       }
-      if (downDOMRect != undefined && draggingDOMRect.bottom > downDOMRect.bottom) {
-        setCurrentDraggedIndexState(draggedIndex + 1);
+      if (downDOMPosition != undefined && draggingDOMPosition.bottom > downDOMPosition.bottom) {
+        setCurrentDraggedIndexState((currentDraggedIndexState ?? index) + 1);
       }
     },
     [idToIndex, currentDraggedIndexState],
