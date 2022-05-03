@@ -2,6 +2,7 @@ import React from "react";
 import { DocumentEventListener } from "./document-event-listener";
 
 import { HandleAttributes, Item, RowAttributes, RowCreator } from "./shared";
+import { forwardRef } from "./utilities";
 
 type Props<Row extends HTMLElement, I extends Item> = Readonly<{
   item: I;
@@ -11,10 +12,9 @@ type Props<Row extends HTMLElement, I extends Item> = Readonly<{
   onStartDragging: (item: I) => void;
   onDrag: (item: I, y: number) => void;
   onFinishDragging: (item: I) => void;
-  updateOffsetTop: (item: I, top: number) => void;
 }>;
 
-export const Row = <Row extends HTMLElement, I extends Item>(props: Props<Row, I>) => {
+export const Row = forwardRef(<Row extends HTMLElement, I extends Item>(props: Props<Row, I>, ref: React.Ref<Row>) => {
   const [mouseDownPositionYState, setMouseDownPositionYState] = React.useState<number>();
   const [translateYState, setTranslateYState] = React.useState<number>();
 
@@ -46,8 +46,6 @@ export const Row = <Row extends HTMLElement, I extends Item>(props: Props<Row, I
     };
   }, [props.item, props.onFinishDragging, mouseDownPositionYState]);
 
-  const ref = React.useCallback((ref: Row) => props.updateOffsetTop(props.item, ref.offsetTop), [props.item]);
-
   const style: RowAttributes<Row>["style"] = React.useMemo(() => {
     if (translateYState != undefined) return { transform: `translate(0, ${translateYState}px)` };
 
@@ -66,4 +64,4 @@ export const Row = <Row extends HTMLElement, I extends Item>(props: Props<Row, I
       {props.row(props.item, rowAttributes, handleAttributes)}
     </>
   );
-};
+});
