@@ -7,7 +7,7 @@ const bodies = ["foo", "bar", "baz"];
 
 const App = () => {
   const [items, setItems] = React.useState<Item[]>(
-    Array(10)
+    Array(50)
       .fill(0)
       .map((_, i) => ({ id: i, body: bodies[i % 3], height: 20 + (i % 3) * 20, marginTop: 5 + (i % 3) * 5 })),
   );

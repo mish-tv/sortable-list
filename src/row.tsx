@@ -1,6 +1,6 @@
 import React from "react";
 import { DocumentEventListener } from "./document-event-listener";
-
+import { useAutoScrollerValue } from "./auto-scroller";
 import { HandleAttributes, Item, RowAttributes, RowCreator } from "./shared";
 import { forwardRef } from "./utilities";
 
@@ -17,6 +17,7 @@ type Props<Row extends HTMLElement, I extends Item> = Readonly<{
 export const Row = forwardRef(<Row extends HTMLElement, I extends Item>(props: Props<Row, I>, ref: React.Ref<Row>) => {
   const [mouseDownPositionYState, setMouseDownPositionYState] = React.useState<number>();
   const [translateYState, setTranslateYState] = React.useState<number>();
+  const { scrolledY, resetScrolledY } = useAutoScrollerValue();
 
   const onMouseDown: HandleAttributes["onMouseDown"] = React.useCallback(
     (event) => {
@@ -30,11 +31,12 @@ export const Row = forwardRef(<Row extends HTMLElement, I extends Item>(props: P
     if (mouseDownPositionYState == undefined) return undefined;
 
     return (event: MouseEvent) => {
+      resetScrolledY();
       const y = event.pageY - mouseDownPositionYState;
       props.onDrag(props.item, y);
       setTranslateYState(y);
     };
-  }, [props.item, props.onDrag, mouseDownPositionYState]);
+  }, [props.item, props.onDrag, mouseDownPositionYState, resetScrolledY]);
 
   const onMouseUp = React.useMemo(() => {
     if (mouseDownPositionYState == undefined) return undefined;
@@ -48,17 +50,19 @@ export const Row = forwardRef(<Row extends HTMLElement, I extends Item>(props: P
 
   const { style, translateY }: { style: RowAttributes<Row>["style"]; translateY: number } = React.useMemo(() => {
     if (translateYState != undefined) {
-      return { style: { transform: `translate(0, ${translateYState}px)` }, translateY: translateYState };
+      const translateY = scrolledY + translateYState;
+
+      return { style: { transform: `translateY(${translateY}px)` }, translateY };
     }
 
     return {
       style: {
-        transform: props.translateY !== 0 ? `translate(0, ${props.translateY}px)` : undefined,
+        transform: props.translateY !== 0 ? `translateY(${props.translateY}px)` : undefined,
         transition: props.isDraggingAny ? "transform 0.1s" : undefined,
       },
       translateY: props.translateY,
     };
-  }, [props.translateY, props.isDraggingAny, translateYState]);
+  }, [props.translateY, props.isDraggingAny, translateYState, scrolledY]);
 
   const rowAttributes: RowAttributes<Row> = React.useMemo(
     () => ({ style, ref, "sortable-list-translate-y": translateY === 0 ? undefined : translateY }),

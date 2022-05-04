@@ -1,7 +1,8 @@
 import React from "react";
 
+import { AutoScrollerValueContextProvider, useAutoScroller } from "./auto-scroller";
 import { Row } from "./row";
-import { Item, RowCreator } from "./shared";
+import { getTranslateY, Item, RowCreator } from "./shared";
 
 type Props<Row extends HTMLElement, I extends Item> = Readonly<{
   items: I[];
@@ -13,16 +14,15 @@ type Props<Row extends HTMLElement, I extends Item> = Readonly<{
 const getDOMPosition = (dom: Nullable<HTMLElement> | null) => {
   if (dom == undefined) return undefined;
 
-  const transformYString = dom.getAttribute("sortable-list-translate-y");
-  const transformY = transformYString == undefined ? 0 : Number(transformYString);
-
-  const top = dom.offsetTop + transformY;
+  const top = dom.offsetTop + getTranslateY(dom);
   const bottom = top + dom.clientHeight;
 
   return { top, bottom };
 };
 
-export const SortableList = <Row extends HTMLElement, I extends Item>(props: Props<Row, I>) => {
+const InnerSortableList = <Row extends HTMLElement, I extends Item>(props: Props<Row, I>) => {
+  const [startAutoScrollingIfNeeded, stopAutoScrolling] = useAutoScroller();
+
   const [currentDraggedIndexState, setCurrentDraggedIndexState] = React.useState<number>();
   const [draggingItemIdState, setDraggingItemId] = React.useState<React.Key>();
   const rowRefs = React.useRef<React.RefObject<Row>[]>([]);
@@ -69,6 +69,7 @@ export const SortableList = <Row extends HTMLElement, I extends Item>(props: Pro
 
       const draggingDOMPosition = getDOMPosition(rowRefs.current[index].current);
       if (draggingDOMPosition == undefined) return;
+      startAutoScrollingIfNeeded(rowRefs.current[index].current!);
 
       const [upIndex, downIndex] = (() => {
         if (currentDraggedIndexState == undefined) return [index - 1, index + 1];
@@ -88,14 +89,15 @@ export const SortableList = <Row extends HTMLElement, I extends Item>(props: Pro
         setCurrentDraggedIndexState((currentDraggedIndexState ?? index) + 1);
       }
     },
-    [idToIndex, currentDraggedIndexState],
+    [startAutoScrollingIfNeeded, idToIndex, currentDraggedIndexState],
   );
 
   const onFinishDragging = React.useCallback(() => {
     setDraggingItemId(undefined);
     setItems();
     setCurrentDraggedIndexState(undefined);
-  }, [setItems]);
+    stopAutoScrolling();
+  }, [stopAutoScrolling, setItems]);
 
   const itemIndexToTranslateY = React.useMemo<(i: number) => number>(() => {
     if (draggingItemIdState == undefined || currentDraggedIndexState == undefined) return () => 0;
@@ -147,3 +149,9 @@ export const SortableList = <Row extends HTMLElement, I extends Item>(props: Pro
 
   return <>{rows}</>;
 };
+
+export const SortableList = <Row extends HTMLElement, I extends Item>(props: Props<Row, I>) => (
+  <AutoScrollerValueContextProvider>
+    <InnerSortableList {...props} />
+  </AutoScrollerValueContextProvider>
+);

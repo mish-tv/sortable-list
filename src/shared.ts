@@ -9,3 +9,9 @@ export type RowCreator<Row extends HTMLElement, I extends Item> = (
   rowAttributes: RowAttributes<Row>,
   handleAttributes: HandleAttributes,
 ) => React.ReactNode;
+
+export const getTranslateY = (dom: HTMLElement) => {
+  const transformYString = dom.getAttribute("sortable-list-translate-y");
+
+  return transformYString == undefined ? 0 : Number(transformYString);
+};
