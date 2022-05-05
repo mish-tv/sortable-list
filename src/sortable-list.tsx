@@ -2,12 +2,12 @@ import React from "react";
 
 import { AutoScrollerValueContextProvider, useAutoScroller } from "./auto-scroller";
 import { Row } from "./row";
-import { getTranslateY, Item, RowCreator } from "./shared";
+import { getTranslateY, RowCreator } from "./shared";
 
-type Props<Row extends HTMLElement, I extends Item> = Readonly<{
-  items: I[];
-  setItems: (items: I[]) => void;
-  row: RowCreator<Row, I>;
+type Props<Row extends HTMLElement, Id extends React.Key> = Readonly<{
+  ids: Id[];
+  setIds: (ids: Id[]) => void;
+  row: RowCreator<Row, Id>;
 }>;
 
 // getBoundingClientRect cannot be used because it correctly reflects the position even during CSS transitions.
@@ -20,7 +20,7 @@ const getDOMPosition = (dom: Nullable<HTMLElement> | null) => {
   return { top, bottom };
 };
 
-const InnerSortableList = <Row extends HTMLElement, I extends Item>(props: Props<Row, I>) => {
+const InnerSortableList = <Row extends HTMLElement, Id extends React.Key>(props: Props<Row, Id>) => {
   const [startAutoScrollingIfNeeded, stopAutoScrolling] = useAutoScroller();
 
   const [currentDraggedIndexState, setCurrentDraggedIndexState] = React.useState<number>();
@@ -30,28 +30,28 @@ const InnerSortableList = <Row extends HTMLElement, I extends Item>(props: Props
   const downDiffRef = React.useRef<number>();
 
   const idToIndex = React.useMemo(
-    () => props.items.reduce((previous, current, i) => ({ ...previous, [current.id]: i }), {} as Record<React.Key, number>),
-    [props.items],
+    () => props.ids.reduce((previous, current, i) => ({ ...previous, [current]: i }), {} as Record<React.Key, number>),
+    [props.ids],
   );
 
-  const setItems = React.useCallback(() => {
+  const setIds = React.useCallback(() => {
     if (draggingItemIdState == undefined || currentDraggedIndexState == undefined) return;
 
     const draggingItemIndex = idToIndex[draggingItemIdState];
     if (draggingItemIndex === currentDraggedIndexState) return;
 
-    const items = [...props.items];
-    const [item] = items.splice(draggingItemIndex, 1);
-    items.splice(currentDraggedIndexState, 0, item);
+    const ids = [...props.ids];
+    const [id] = ids.splice(draggingItemIndex, 1);
+    ids.splice(currentDraggedIndexState, 0, id);
 
-    props.setItems(items);
-  }, [props.setItems, currentDraggedIndexState, draggingItemIdState]);
+    props.setIds(ids);
+  }, [props.setIds, currentDraggedIndexState, draggingItemIdState]);
 
   const onStartDragging = React.useCallback(
-    (item: I) => {
-      setDraggingItemId(item.id);
+    (id: React.Key) => {
+      setDraggingItemId(id);
 
-      const index = idToIndex[item.id];
+      const index = idToIndex[id];
       const draggingRect = rowRefs.current[index].current?.getBoundingClientRect();
       if (draggingRect == undefined) return;
 
@@ -64,10 +64,10 @@ const InnerSortableList = <Row extends HTMLElement, I extends Item>(props: Props
   );
 
   const onDrag = React.useCallback(
-    (item: I) => {
+    (id: React.Key) => {
       if (draggingItemIdState == undefined) return;
 
-      const index = idToIndex[item.id];
+      const index = idToIndex[id];
 
       const draggingDOMPosition = getDOMPosition(rowRefs.current[index].current);
       if (draggingDOMPosition == undefined) return;
@@ -96,10 +96,10 @@ const InnerSortableList = <Row extends HTMLElement, I extends Item>(props: Props
 
   const onFinishDragging = React.useCallback(() => {
     setDraggingItemId(undefined);
-    setItems();
+    setIds();
     setCurrentDraggedIndexState(undefined);
     stopAutoScrolling();
-  }, [stopAutoScrolling, setItems]);
+  }, [stopAutoScrolling, setIds]);
 
   const itemIndexToTranslateY = React.useMemo<(i: number) => number>(() => {
     if (draggingItemIdState == undefined || currentDraggedIndexState == undefined) return () => 0;
@@ -128,15 +128,15 @@ const InnerSortableList = <Row extends HTMLElement, I extends Item>(props: Props
 
   const rows = React.useMemo(
     () =>
-      props.items.map((item, i) => {
+      props.ids.map((id, i) => {
         const ref = React.createRef<Row>();
         rowRefs.current[i] = ref;
 
         return (
           <Row
-            key={item.id}
+            key={id}
             ref={ref}
-            item={item}
+            id={id}
             translateY={itemIndexToTranslateY(i)}
             isDraggingAny={draggingItemIdState != undefined}
             row={props.row}
@@ -146,13 +146,13 @@ const InnerSortableList = <Row extends HTMLElement, I extends Item>(props: Props
           />
         );
       }),
-    [props.items, props.row, draggingItemIdState, onDrag, itemIndexToTranslateY],
+    [props.ids, props.row, draggingItemIdState, onDrag, itemIndexToTranslateY],
   );
 
   return <>{rows}</>;
 };
 
-export const SortableList = <Row extends HTMLElement, I extends Item>(props: Props<Row, I>) => (
+export const SortableList = <Row extends HTMLElement, Id extends React.Key>(props: Props<Row, Id>) => (
   <AutoScrollerValueContextProvider>
     <InnerSortableList {...props} />
   </AutoScrollerValueContextProvider>

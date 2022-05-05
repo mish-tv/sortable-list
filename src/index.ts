@@ -1,2 +1,2 @@
 export { SortableList } from "./sortable-list";
-export type { Item, RowCreator } from "./shared";
+export type { RowCreator } from "./shared";
