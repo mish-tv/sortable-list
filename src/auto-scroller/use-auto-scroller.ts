@@ -3,6 +3,9 @@ import React from "react";
 import { useInterval } from "./use-interval";
 import { useAutoScrollerValue } from "./auto-scroller-value";
 
+const isTop = () => window.scrollY <= 0;
+const isBottom = () => window.innerHeight + window.scrollY >= document.body.offsetHeight;
+
 export const useAutoScroller = () => {
   const draggingElement = React.useRef<HTMLElement>();
   const [setInterval, clearInterval] = useInterval();
@@ -10,7 +13,8 @@ export const useAutoScroller = () => {
 
   const scrollY = React.useCallback(
     (y: number) => {
-      if (window.scrollY <= 0 && y < 0) return;
+      if (y < 0 && isTop()) return;
+      if (y > 0 && isBottom()) return;
       window.scrollBy(0, y);
       updateScrolledY();
     },
@@ -33,9 +37,9 @@ export const useAutoScroller = () => {
 
     const rect = element.getBoundingClientRect();
     if (rect.top < 0) {
-      scrollY(-1);
+      scrollY((rect.top / rect.height) * 4);
     } else if (rect.bottom > window.innerHeight) {
-      scrollY(1);
+      scrollY(((rect.bottom - window.innerHeight) / rect.height) * 4);
     } else {
       stopAutoScrolling();
     }
