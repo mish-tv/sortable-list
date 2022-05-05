@@ -1,10 +1,12 @@
-<h1 align="center">@mish-tv/sortable-list</h1>
+<h1 align="center">
+  @mish-tv/sortable-list
+  <div align="center">
+    <a href="https://www.npmjs.com/package/@mish-tv/sortable-list"><img src="https://img.shields.io/npm/v/@mish-tv/sortable-list.svg" alt="npm"></a>
+    <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/github/license/mish-tv/sortable-list.svg?style=flat" alt="license"></a>
+  </div>
+</h1>
 
-<div align="center">
-<a href="https://www.npmjs.com/package/@mish-tv/sortable-list"><img src="https://img.shields.io/npm/v/@mish-tv/sortable-list.svg" alt="npm"></a>
-<a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/github/license/mish-tv/sortable-list.svg?style=flat" alt="license"></a>
-</div>
-
+<div align="center"><img height="300" src="https://user-images.githubusercontent.com/1439961/166896857-69bbfbf9-b847-4502-9714-ba9d74c1a97a.gif" /></div>
 <h4 align="center">`@mish-tv/sortable-list` is a React component for creating a vertical list UI that can be sorted by drag and drop.</h4>
 
 ## Usage
