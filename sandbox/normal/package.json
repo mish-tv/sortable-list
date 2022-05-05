@@ -7,9 +7,9 @@
     "dev": "parcel --no-cache index.html"
   },
   "alias": {
-    "@mish-tv/sortable-list": "..",
-    "react": "../node_modules/react",
-    "react-dom": "../node_modules/react-dom"
+    "@mish-tv/sortable-list": "../..",
+    "react": "../../node_modules/react",
+    "react-dom": "../../node_modules/react-dom"
   },
   "dependencies": {},
   "devDependencies": {

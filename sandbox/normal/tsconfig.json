@@ -1,10 +1,10 @@
 {
-  "extends": "../tsconfig.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "rootDir": ".",
     "baseUrl": ".",
     "paths": {
-      "@mish-tv/sortable-list": ["../lib/esm"]
+      "@mish-tv/sortable-list": ["../../lib/esm"]
     }
   },
   "include": ["./**/*.ts", "./**/*.tsx"],

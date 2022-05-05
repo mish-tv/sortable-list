@@ -1,11 +1,12 @@
 import React from "react";
 import type { Except } from "type-fest";
 
+import { getScrollY } from "./shared";
+
 type Values = {
   scrolledY: number;
-  startScrolling: () => void;
-  updateScrolledY: () => void;
-  resetScrolledY: () => void;
+  startScrolling: (target: Window | HTMLElement) => void;
+  updateScrolledY: (target: Window | HTMLElement) => void;
 };
 
 export const AutoScrollerValueContext = React.createContext({} as Values);
@@ -16,19 +17,17 @@ type Props = Except<React.ComponentProps<typeof AutoScrollerValueContext.Provide
 export const AutoScrollerValueContextProvider = (props: Props) => {
   const [scrolledY, setScrolledY] = React.useState(0);
   const startScrolledY = React.useRef<number>();
-  const startScrolling = React.useCallback(() => {
-    startScrolledY.current = window.scrollY;
+  const lastTarget = React.useRef<Window | HTMLElement>();
+
+  const startScrolling = React.useCallback((target: Window | HTMLElement) => {
+    startScrolledY.current = getScrollY(target);
+    lastTarget.current = target;
   }, []);
-  const updateScrolledY = React.useCallback(() => {
+  const updateScrolledY = React.useCallback((target: Window | HTMLElement) => {
     if (startScrolledY.current == undefined) return;
-    setScrolledY(window.scrollY - startScrolledY.current);
-  }, []);
-  const resetScrolledY = React.useCallback(() => {
-    setScrolledY(0);
-    startScrolledY.current = window.scrollY;
+    setScrolledY(getScrollY(target) - startScrolledY.current);
+    lastTarget.current = target;
   }, []);
 
-  return (
-    <AutoScrollerValueContext.Provider {...props} value={{ scrolledY, startScrolling, updateScrolledY, resetScrolledY }} />
-  );
+  return <AutoScrollerValueContext.Provider {...props} value={{ scrolledY, startScrolling, updateScrolledY }} />;
 };

@@ -1,13 +1,13 @@
 import React from "react";
 import { DocumentEventListener } from "./document-event-listener";
-import { scrollDownSmallIfNeeded, useAutoScrollerValue } from "./auto-scroller";
+import { findScrollableParent, scrollDownSmallIfNeeded, useAutoScrollerValue } from "./auto-scroller";
 import { HandleAttributes, Options, RowAttributes, RowCreator } from "./shared";
-import { forwardRef } from "./utilities";
 
 type Props<Row extends HTMLElement, Id extends React.Key> = Readonly<{
   id: Id;
   translateY: number;
   isDraggingAny: boolean;
+  rowRef: React.RefObject<Row>;
   row: RowCreator<Row, Id>;
   onStartDragging: (id: Id) => void;
   onDrag: (id: Id, y: number) => void;
@@ -16,10 +16,10 @@ type Props<Row extends HTMLElement, Id extends React.Key> = Readonly<{
 
 const handleCommonStyle: React.HTMLAttributes<any>["style"] = { touchAction: "none" };
 
-export const Row = forwardRef(<Row extends HTMLElement, Id extends React.Key>(props: Props<Row, Id>, ref: React.Ref<Row>) => {
+export const Row = <Row extends HTMLElement, Id extends React.Key>(props: Props<Row, Id>) => {
   const [mouseDownPositionYState, setMouseDownPositionYState] = React.useState<number>();
   const [translateYState, setTranslateYState] = React.useState<number>();
-  const { scrolledY, resetScrolledY } = useAutoScrollerValue();
+  const { scrolledY, startScrolling } = useAutoScrollerValue();
 
   React.useEffect(() => {
     if (translateYState == undefined) return;
@@ -32,23 +32,27 @@ export const Row = forwardRef(<Row extends HTMLElement, Id extends React.Key>(pr
       scrollDownSmallIfNeeded();
       props.onStartDragging(props.id);
       setMouseDownPositionYState(y);
+      if (props.rowRef.current != undefined) startScrolling(findScrollableParent(props.rowRef.current));
     },
-    [props.id, props.onStartDragging],
+    [props.id, props.rowRef, props.onStartDragging, startScrolling],
   );
-  const onMouseDown = React.useCallback((e: React.MouseEvent) => onStart(e.pageY), [onStart]);
-  const onTouchStart = React.useCallback((e: React.TouchEvent) => onStart(e.changedTouches[0].pageY), [onStart]);
+  const onMouseDown = React.useCallback((e: React.MouseEvent) => onStart(e.clientY), [onStart]);
+  const onTouchStart = React.useCallback((e: React.TouchEvent) => onStart(e.changedTouches[0].clientY), [onStart]);
 
   const onMove = React.useMemo(() => {
     if (mouseDownPositionYState == undefined) return undefined;
 
     return (y: number) => {
-      resetScrolledY();
       setTranslateYState(y - mouseDownPositionYState);
     };
-  }, [props.id, props.onDrag, mouseDownPositionYState, resetScrolledY]);
-  const onMouseMove = React.useMemo(() => (onMove == undefined ? undefined : (e: MouseEvent) => onMove(e.pageY)), [onMove]);
+  }, [props.id, props.onDrag, mouseDownPositionYState]);
+  const onMouseMove = React.useMemo(
+    () => (onMove == undefined ? undefined : (e: MouseEvent) => onMove(e.clientY)),
+
+    [onMove],
+  );
   const onTouchMove = React.useMemo(
-    () => (onMove == undefined ? undefined : (e: TouchEvent) => onMove(e.changedTouches[0].pageY)),
+    () => (onMove == undefined ? undefined : (e: TouchEvent) => onMove(e.changedTouches[0].clientY)),
     [onMove],
   );
 
@@ -87,8 +91,8 @@ export const Row = forwardRef(<Row extends HTMLElement, Id extends React.Key>(pr
   }, [props.translateY, props.isDraggingAny, translateYState, scrolledY]);
 
   const rowAttributes: RowAttributes<Row> = React.useMemo(
-    () => ({ style, ref, "sortable-list-translate-y": translateY === 0 ? undefined : translateY }),
-    [ref, style, translateY],
+    () => ({ style, ref: props.rowRef, "sortable-list-translate-y": translateY === 0 ? undefined : translateY }),
+    [props.rowRef, style, translateY],
   );
   const handleAttributes: HandleAttributes = React.useMemo(
     () => ({ onMouseDown, onTouchStart, style: handleCommonStyle }),
@@ -111,4 +115,4 @@ export const Row = forwardRef(<Row extends HTMLElement, Id extends React.Key>(pr
       {props.row(props.id, rowAttributes, handleAttributes, options)}
     </>
   );
-});
+};

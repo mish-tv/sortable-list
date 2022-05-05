@@ -2,10 +2,7 @@ import React from "react";
 
 import { useInterval } from "./use-interval";
 import { useAutoScrollerValue } from "./auto-scroller-value";
-import { isOnMouseDevice } from "./shared";
-
-const isTop = () => window.scrollY <= (isOnMouseDevice() ? 0 : 1);
-const isBottom = () => window.innerHeight + window.scrollY >= document.body.offsetHeight;
+import { findScrollableParent, getInnerHeight, getRelativeRect, getScrollX, isBottom, isOnMouseDevice, isTop } from "./shared";
 
 type Options = Readonly<{
   scrollBoundaryTop: number;
@@ -13,44 +10,47 @@ type Options = Readonly<{
 }>;
 
 export const useAutoScroller = (options: Options) => {
-  const draggingElement = React.useRef<HTMLElement>();
+  const dragging = React.useRef<{ element: HTMLElement; scrollable: HTMLElement | Window }>();
   const [setInterval, clearInterval] = useInterval();
-  const { startScrolling, updateScrolledY, resetScrolledY } = useAutoScrollerValue();
+  const { updateScrolledY } = useAutoScrollerValue();
 
   const scrollY = React.useCallback(
     (y: number) => {
-      if (y < 0 && isTop()) {
-        if (!isOnMouseDevice()) window.scrollTo(window.scrollX, 1);
+      const current = dragging.current;
+      if (current == undefined) return;
+
+      if (y < 0 && isTop(current.scrollable)) {
+        if (!isOnMouseDevice()) current.scrollable.scrollTo(getScrollX(current.scrollable), 1);
 
         return;
       }
-      if (y > 0 && isBottom()) return;
+      if (y > 0 && isBottom(current.scrollable)) return;
 
-      window.scrollBy(0, y);
-      updateScrolledY();
+      current.scrollable.scrollBy(0, y);
+      updateScrolledY(current.scrollable);
     },
     [updateScrolledY],
   );
   const stopAutoScrolling = React.useCallback(() => {
     clearInterval();
-    resetScrolledY();
-    draggingElement.current = undefined;
-  }, [clearInterval, resetScrolledY]);
+    dragging.current = undefined;
+  }, [clearInterval]);
 
   const scrollIfNeeded = React.useCallback(() => {
-    const element = draggingElement.current;
+    const current = dragging.current;
 
-    if (element == undefined) {
+    if (current == undefined) {
       stopAutoScrolling();
 
       return;
     }
 
-    const rect = element.getBoundingClientRect();
+    const rect = getRelativeRect(current.element, current.scrollable);
+
     if (rect.top < options.scrollBoundaryTop) {
       scrollY(((rect.top - options.scrollBoundaryTop) / rect.height) * 4);
-    } else if (rect.bottom > window.innerHeight - options.scrollBoundaryBottom) {
-      scrollY(((rect.bottom - window.innerHeight + options.scrollBoundaryBottom) / rect.height) * 4);
+    } else if (rect.bottom > getInnerHeight(current.scrollable) - options.scrollBoundaryBottom) {
+      scrollY(((rect.bottom - getInnerHeight(current.scrollable) + options.scrollBoundaryBottom) / rect.height) * 4);
     } else {
       stopAutoScrolling();
     }
@@ -58,20 +58,21 @@ export const useAutoScroller = (options: Options) => {
 
   const startAutoScrollingIfNeeded = React.useCallback(
     (element: HTMLElement) => {
-      if (draggingElement.current != undefined) {
-        draggingElement.current = element;
+      const scrollable = findScrollableParent(element);
+
+      if (dragging.current != undefined) {
+        dragging.current = { element, scrollable };
 
         return;
       }
 
-      const rect = element.getBoundingClientRect();
-      if (rect.top < options.scrollBoundaryTop || rect.bottom > window.innerHeight - options.scrollBoundaryBottom) {
-        draggingElement.current = element;
+      const rect = getRelativeRect(element, scrollable);
+      if (rect.top < options.scrollBoundaryTop || rect.bottom > getInnerHeight(scrollable) - options.scrollBoundaryBottom) {
+        dragging.current = { element, scrollable };
         setInterval(scrollIfNeeded, 5);
-        startScrolling();
       }
     },
-    [options.scrollBoundaryTop, options.scrollBoundaryBottom, setInterval, scrollIfNeeded, startScrolling],
+    [options.scrollBoundaryTop, options.scrollBoundaryBottom, setInterval, scrollIfNeeded],
   );
 
   return [startAutoScrollingIfNeeded, stopAutoScrolling] as const;

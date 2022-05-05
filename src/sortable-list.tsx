@@ -154,7 +154,7 @@ const InnerSortableList = <Row extends HTMLElement, Id extends React.Key>(props:
         return (
           <Row
             key={id}
-            ref={ref}
+            rowRef={ref}
             id={id}
             translateY={itemIndexToTranslateY(i)}
             isDraggingAny={draggingItemIdState != undefined}
