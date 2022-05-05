@@ -10,6 +10,7 @@ export const useAutoScroller = () => {
 
   const scrollY = React.useCallback(
     (y: number) => {
+      if (window.scrollY <= 0) return;
       window.scrollBy(0, y);
       addScrolledY(y);
     },
