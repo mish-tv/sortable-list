@@ -9,9 +9,7 @@
     "build": "tsc -b ./tsconfig.build.json ./tsconfig.build-cjs.json",
     "watch": "tsc -b ./tsconfig.build.json ./tsconfig.build-cjs.json --watch",
     "lint": "tsc --noEmit && eslint \"./src/**/*.ts\"",
-    "fix:ts": "eslint --fix \"./src/**/*.ts\"",
-    "test": "jest",
-    "codecov": "codecov"
+    "fix:ts": "eslint --fix \"./src/**/*.ts\""
   },
   "repository": {
     "type": "git",
