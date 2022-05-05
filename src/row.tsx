@@ -42,8 +42,7 @@ export const Row = forwardRef(<Row extends HTMLElement, I extends Item>(props: P
 
     return (y: number) => {
       resetScrolledY();
-      const tmp = y - mouseDownPositionYState;
-      setTranslateYState(tmp);
+      setTranslateYState(y - mouseDownPositionYState);
     };
   }, [props.item, props.onDrag, mouseDownPositionYState, resetScrolledY]);
   const onMouseMove = React.useMemo(() => (onMove == undefined ? undefined : (e: MouseEvent) => onMove(e.pageY)), [onMove]);
@@ -102,6 +101,7 @@ export const Row = forwardRef(<Row extends HTMLElement, I extends Item>(props: P
         onMouseUp={onMouseUp}
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
+        onCancel={onMouseUp}
       />
       {props.row(props.item, rowAttributes, handleAttributes)}
     </>

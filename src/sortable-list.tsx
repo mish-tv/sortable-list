@@ -84,10 +84,10 @@ const InnerSortableList = <Row extends HTMLElement, I extends Item>(props: Props
       const upDOMPosition = getDOMPosition(rowRefs.current[upIndex]?.current);
       const downDOMPosition = getDOMPosition(rowRefs.current[downIndex]?.current);
 
-      if (upDOMPosition != undefined && draggingDOMPosition.top < upDOMPosition.top) {
+      if (upDOMPosition != undefined && draggingDOMPosition.top <= upDOMPosition.top) {
         setCurrentDraggedIndexState((currentDraggedIndexState ?? index) - 1);
       }
-      if (downDOMPosition != undefined && draggingDOMPosition.bottom > downDOMPosition.bottom) {
+      if (downDOMPosition != undefined && draggingDOMPosition.bottom >= downDOMPosition.bottom) {
         setCurrentDraggedIndexState((currentDraggedIndexState ?? index) + 1);
       }
     },
