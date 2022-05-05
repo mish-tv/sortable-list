@@ -1,6 +1,6 @@
 import React from "react";
 import { DocumentEventListener } from "./document-event-listener";
-import { useAutoScrollerValue } from "./auto-scroller";
+import { scrollDownSmallIfNeeded, useAutoScrollerValue } from "./auto-scroller";
 import { HandleAttributes, Item, RowAttributes, RowCreator } from "./shared";
 import { forwardRef } from "./utilities";
 
@@ -29,6 +29,7 @@ export const Row = forwardRef(<Row extends HTMLElement, I extends Item>(props: P
 
   const onStart = React.useCallback(
     (y: number) => {
+      scrollDownSmallIfNeeded();
       props.onStartDragging(props.item);
       setMouseDownPositionYState(y);
     },
