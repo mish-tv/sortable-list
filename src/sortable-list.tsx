@@ -5,9 +5,25 @@ import { Row } from "./row";
 import { getTranslateY, RowCreator } from "./shared";
 
 type Props<Row extends HTMLElement, Id extends React.Key> = Readonly<{
+  /** An array of resource ids. */
   ids: Id[];
+  /**
+   * A function that is called when the reordering is finalized (the moment the user removes their finger from the mouse).
+   * When this function is called, the state should be updated to render the SortableList.
+   */
   setIds: (ids: Id[]) => void;
+  /** Function to create a row. */
   row: RowCreator<Row, Id>;
+  /**
+   * Boundary value for auto scrolling. Distance from the top of the screen.
+   * @default 0
+   */
+  scrollBoundaryTop?: number;
+  /**
+   * Boundary value for auto scrolling. Distance from the bottom of the screen.
+   * @default 0
+   */
+  scrollBoundaryBottom?: number;
 }>;
 
 // getBoundingClientRect cannot be used because it correctly reflects the position even during CSS transitions.
@@ -21,7 +37,10 @@ const getDOMPosition = (dom: Nullable<HTMLElement> | null) => {
 };
 
 const InnerSortableList = <Row extends HTMLElement, Id extends React.Key>(props: Props<Row, Id>) => {
-  const [startAutoScrollingIfNeeded, stopAutoScrolling] = useAutoScroller();
+  const [startAutoScrollingIfNeeded, stopAutoScrolling] = useAutoScroller({
+    scrollBoundaryTop: props.scrollBoundaryTop ?? 0,
+    scrollBoundaryBottom: props.scrollBoundaryBottom ?? 0,
+  });
 
   const [currentDraggedIndexState, setCurrentDraggedIndexState] = React.useState<number>();
   const [draggingItemIdState, setDraggingItemId] = React.useState<React.Key>();

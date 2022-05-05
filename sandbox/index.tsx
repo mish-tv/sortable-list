@@ -37,7 +37,7 @@ const App = () => {
 
   return (
     <ul className="list">
-      <SortableList ids={ids} setIds={setIds} row={row} />
+      <SortableList ids={ids} setIds={setIds} row={row} scrollBoundaryTop={50} scrollBoundaryBottom={100} />
     </ul>
   );
 };
