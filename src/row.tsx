@@ -14,29 +14,38 @@ type Props<Row extends HTMLElement, I extends Item> = Readonly<{
   onFinishDragging: (item: I) => void;
 }>;
 
+const handleCommonStyle: React.HTMLAttributes<any>["style"] = { touchAction: "none" };
+
 export const Row = forwardRef(<Row extends HTMLElement, I extends Item>(props: Props<Row, I>, ref: React.Ref<Row>) => {
   const [mouseDownPositionYState, setMouseDownPositionYState] = React.useState<number>();
   const [translateYState, setTranslateYState] = React.useState<number>();
   const { scrolledY, resetScrolledY } = useAutoScrollerValue();
 
-  const onMouseDown: HandleAttributes["onMouseDown"] = React.useCallback(
-    (event) => {
+  const onStart = React.useCallback(
+    (y: number) => {
       props.onStartDragging(props.item);
-      setMouseDownPositionYState(event.pageY);
+      setMouseDownPositionYState(y);
     },
     [props.item, props.onStartDragging],
   );
+  const onMouseDown = React.useCallback((e: React.MouseEvent) => onStart(e.pageY), [onStart]);
+  const onTouchStart = React.useCallback((e: React.TouchEvent) => onStart(e.changedTouches[0].pageY), [onStart]);
 
-  const onMouseMove = React.useMemo(() => {
+  const onMove = React.useMemo(() => {
     if (mouseDownPositionYState == undefined) return undefined;
 
-    return (event: MouseEvent) => {
+    return (y: number) => {
       resetScrolledY();
-      const y = event.pageY - mouseDownPositionYState;
-      props.onDrag(props.item, y);
-      setTranslateYState(y);
+      const tmp = y - mouseDownPositionYState;
+      props.onDrag(props.item, tmp);
+      setTranslateYState(tmp);
     };
   }, [props.item, props.onDrag, mouseDownPositionYState, resetScrolledY]);
+  const onMouseMove = React.useMemo(() => (onMove == undefined ? undefined : (e: MouseEvent) => onMove(e.pageY)), [onMove]);
+  const onTouchMove = React.useMemo(
+    () => (onMove == undefined ? undefined : (e: TouchEvent) => onMove(e.changedTouches[0].pageY)),
+    [onMove],
+  );
 
   const onMouseUp = React.useMemo(() => {
     if (mouseDownPositionYState == undefined) return undefined;
@@ -47,6 +56,14 @@ export const Row = forwardRef(<Row extends HTMLElement, I extends Item>(props: P
       setTranslateYState(undefined);
     };
   }, [props.item, props.onFinishDragging, mouseDownPositionYState]);
+  const onTouchEnd = React.useMemo(() => {
+    if (onMouseUp == undefined) return undefined;
+
+    return (event: TouchEvent) => {
+      onMouseUp();
+      event.preventDefault();
+    };
+  }, [onMouseUp]);
 
   const { style, translateY }: { style: RowAttributes<Row>["style"]; translateY: number } = React.useMemo(() => {
     if (translateYState != undefined) {
@@ -68,11 +85,19 @@ export const Row = forwardRef(<Row extends HTMLElement, I extends Item>(props: P
     () => ({ style, ref, "sortable-list-translate-y": translateY === 0 ? undefined : translateY }),
     [ref, style, translateY],
   );
-  const handleAttributes: HandleAttributes = React.useMemo(() => ({ onMouseDown }), [onMouseDown]);
+  const handleAttributes: HandleAttributes = React.useMemo(
+    () => ({ onMouseDown, onTouchStart, style: handleCommonStyle }),
+    [onMouseDown, onTouchStart],
+  );
 
   return (
     <>
-      <DocumentEventListener onMouseMove={onMouseMove} onMouseUp={onMouseUp} />
+      <DocumentEventListener
+        onMouseMove={onMouseMove}
+        onMouseUp={onMouseUp}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+      />
       {props.row(props.item, rowAttributes, handleAttributes)}
     </>
   );
