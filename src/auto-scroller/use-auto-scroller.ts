@@ -4,7 +4,7 @@ import { useInterval } from "./use-interval";
 import { useAutoScrollerValue } from "./auto-scroller-value";
 import { isOnMouseDevice } from "./shared";
 
-const isTop = () => window.scrollY <= 0;
+const isTop = () => window.scrollY <= (isOnMouseDevice() ? 0 : 1);
 const isBottom = () => window.innerHeight + window.scrollY >= document.body.offsetHeight;
 
 type Options = Readonly<{
