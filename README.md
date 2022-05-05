@@ -10,26 +10,35 @@
 ## Usage
 
 ```tsx
-type Item = { id: number; body: string };
+import React from "react";
+import { RowCreator, SortableList } from "@mish-tv/sortable-list";
 
-const Component = (props: { initialItems: Item[] }) => {
-  const [items, setItems] = React.useState<Item[]>(props.initialItems);
+type Item = { id: number; body: string; height: number; marginTop: number };
 
-  const row: RowCreator<HTMLLIElement, Item> = React.useCallback(
-    (item, rowAttributes, handleAttributes) => (
-      <li className="row" {...rowAttributes}>
-        <button type="button" {...handleAttributes}>
-          ⣿
-        </button>
-        <span>{item.body}</span>
-      </li>
-    ),
-    [],
+export const Component = (props: { initialIds: number[]; items: Record<number, Item> }) => {
+  const [ids, setIds] = React.useState(props.initialIds);
+
+  const row: RowCreator<HTMLLIElement, number> = React.useCallback(
+    (id, rowAttributes, handleAttributes, options) => {
+      const item = props.items[id];
+      let className = "row";
+      if (options.isDragging) className += " dragging";
+
+      return (
+        <li className={className} {...rowAttributes}>
+          <button type="button" {...handleAttributes}>
+            ⣿
+          </button>
+          <span>{item.body}</span>
+        </li>
+      );
+    },
+    [props.items],
   );
 
   return (
     <ul className="list">
-      <SortableList items={items} setItems={setItems} row={row} />
+      <SortableList ids={ids} setIds={setIds} row={row} scrollBoundaryTop={50} scrollBoundaryBottom={100} />
     </ul>
   );
 };
