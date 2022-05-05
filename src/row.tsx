@@ -1,7 +1,7 @@
 import React from "react";
 import { DocumentEventListener } from "./document-event-listener";
 import { scrollDownSmallIfNeeded, useAutoScrollerValue } from "./auto-scroller";
-import { HandleAttributes, RowAttributes, RowCreator } from "./shared";
+import { HandleAttributes, Options, RowAttributes, RowCreator } from "./shared";
 import { forwardRef } from "./utilities";
 
 type Props<Row extends HTMLElement, Id extends React.Key> = Readonly<{
@@ -94,6 +94,10 @@ export const Row = forwardRef(<Row extends HTMLElement, Id extends React.Key>(pr
     () => ({ onMouseDown, onTouchStart, style: handleCommonStyle }),
     [onMouseDown, onTouchStart],
   );
+  const options: Options = React.useMemo(
+    () => ({ isDragging: mouseDownPositionYState != undefined }),
+    [mouseDownPositionYState],
+  );
 
   return (
     <>
@@ -104,7 +108,7 @@ export const Row = forwardRef(<Row extends HTMLElement, Id extends React.Key>(pr
         onTouchEnd={onTouchEnd}
         onCancel={onMouseUp}
       />
-      {props.row(props.id, rowAttributes, handleAttributes)}
+      {props.row(props.id, rowAttributes, handleAttributes, options)}
     </>
   );
 });

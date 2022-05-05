@@ -6,7 +6,12 @@
 .row {
   display: flex;
   align-items: center;
-  gap: 4px;
+  position: relative;
   padding: 16px;
   background-color: rgba(0, 100, 150, 0.4);
+  gap: 4px;
+}
+.row.dragging {
+  z-index: 1;
+  background-color: rgba(0, 100, 150, 1);
 }

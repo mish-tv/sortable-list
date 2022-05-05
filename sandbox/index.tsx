@@ -15,11 +15,17 @@ const App = () => {
       .map((_, i) => i),
   );
 
-  const row: RowCreator<HTMLLIElement, number> = React.useCallback((id, rowAttributes, handleAttributes) => {
+  const row: RowCreator<HTMLLIElement, number> = React.useCallback((id, rowAttributes, handleAttributes, options) => {
     const item = items[id];
+    let className = "row";
+    if (options.isDragging) className += " dragging";
 
     return (
-      <li className="row" {...rowAttributes} style={{ ...rowAttributes.style, height: item.height, marginTop: item.marginTop }}>
+      <li
+        className={className}
+        {...rowAttributes}
+        style={{ ...rowAttributes.style, height: item.height, marginTop: item.marginTop }}
+      >
         <button type="button" {...handleAttributes}>
           ⣿
         </button>
