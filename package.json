@@ -1,7 +1,7 @@
 {
   "name": "@mish-tv/sortable-list",
   "version": "0.0.1",
-  "description": "",
+  "description": "React component for creating a vertical list UI that can be reordered by drag and drop",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
   "scripts": {
@@ -22,12 +22,14 @@
   "bugs": {
     "url": "https://github.com/mish-tv/sortable-list/issues"
   },
+  "files": [
+    "lib"
+  ],
   "homepage": "https://github.com/mish-tv/sortable-list#readme",
   "devDependencies": {
     "@types/react": "^16.8.25",
     "@typescript-eslint/eslint-plugin": "^5.20.0",
     "@typescript-eslint/parser": "^5.20.0",
-    "codecov": "^3.8.2",
     "eslint": "^8.14.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
@@ -36,7 +38,6 @@
     "prettier": "^2.6.2",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
-    "regenerator-runtime": "^0.13.9",
     "stylelint": "^14.7.1",
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-order": "^5.0.0",
