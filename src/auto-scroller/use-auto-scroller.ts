@@ -6,15 +6,15 @@ import { useAutoScrollerValue } from "./auto-scroller-value";
 export const useAutoScroller = () => {
   const draggingElement = React.useRef<HTMLElement>();
   const [setInterval, clearInterval] = useInterval();
-  const { addScrolledY, resetScrolledY } = useAutoScrollerValue();
+  const { startScrolling, updateScrolledY, resetScrolledY } = useAutoScrollerValue();
 
   const scrollY = React.useCallback(
     (y: number) => {
-      if (window.scrollY <= 0) return;
+      if (window.scrollY <= 0 && y < 0) return;
       window.scrollBy(0, y);
-      addScrolledY(y);
+      updateScrolledY();
     },
-    [addScrolledY],
+    [updateScrolledY],
   );
   const stopAutoScrolling = React.useCallback(() => {
     clearInterval();
@@ -53,9 +53,10 @@ export const useAutoScroller = () => {
       if (rect.top < 0 || rect.bottom > window.innerHeight) {
         draggingElement.current = element;
         setInterval(scrollIfNeeded, 5);
+        startScrolling();
       }
     },
-    [setInterval, scrollIfNeeded],
+    [setInterval, scrollIfNeeded, startScrolling],
   );
 
   return [startAutoScrollingIfNeeded, stopAutoScrolling] as const;
