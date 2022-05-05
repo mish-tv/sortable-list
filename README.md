@@ -7,7 +7,7 @@
 <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/github/license/mish-tv/sortable-list.svg?style=flat" alt="license"></a>
 </div>
 
-<h4 align="center">`@mish-tv/sortable-list` is ${description}</h4>
+<h4 align="center">`@mish-tv/sortable-list` is a React component for creating a vertical list UI that can be sorted by drag and drop.</h4>
 
 ## Installation
 
