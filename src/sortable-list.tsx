@@ -65,6 +65,8 @@ const InnerSortableList = <Row extends HTMLElement, I extends Item>(props: Props
 
   const onDrag = React.useCallback(
     (item: I) => {
+      if (draggingItemIdState == undefined) return;
+
       const index = idToIndex[item.id];
 
       const draggingDOMPosition = getDOMPosition(rowRefs.current[index].current);
@@ -89,7 +91,7 @@ const InnerSortableList = <Row extends HTMLElement, I extends Item>(props: Props
         setCurrentDraggedIndexState((currentDraggedIndexState ?? index) + 1);
       }
     },
-    [startAutoScrollingIfNeeded, idToIndex, currentDraggedIndexState],
+    [startAutoScrollingIfNeeded, idToIndex, currentDraggedIndexState, draggingItemIdState],
   );
 
   const onFinishDragging = React.useCallback(() => {

@@ -21,6 +21,12 @@ export const Row = forwardRef(<Row extends HTMLElement, I extends Item>(props: P
   const [translateYState, setTranslateYState] = React.useState<number>();
   const { scrolledY, resetScrolledY } = useAutoScrollerValue();
 
+  React.useEffect(() => {
+    if (translateYState == undefined) return;
+
+    props.onDrag(props.item, scrolledY + translateYState);
+  }, [props.item, props.onDrag, translateYState, scrolledY]);
+
   const onStart = React.useCallback(
     (y: number) => {
       props.onStartDragging(props.item);
@@ -37,7 +43,6 @@ export const Row = forwardRef(<Row extends HTMLElement, I extends Item>(props: P
     return (y: number) => {
       resetScrolledY();
       const tmp = y - mouseDownPositionYState;
-      props.onDrag(props.item, tmp);
       setTranslateYState(tmp);
     };
   }, [props.item, props.onDrag, mouseDownPositionYState, resetScrolledY]);
