@@ -15,7 +15,7 @@
 import React from "react";
 import { RowCreator, SortableList } from "@mish-tv/sortable-list";
 
-type Item = { id: number; body: string; height: number; marginTop: number };
+type Item = { id: number; body: string };
 
 export const Component = (props: { initialIds: number[]; items: Record<number, Item> }) => {
   const [ids, setIds] = React.useState(props.initialIds);
@@ -24,7 +24,8 @@ export const Component = (props: { initialIds: number[]; items: Record<number, I
     (id, rowAttributes, handleAttributes, options) => {
       const item = props.items[id];
       let className = "row";
-      if (options.isDragging) className += " dragging";
+      if (options.isDraggingThis) className += " draggingThis";
+      if (options.isDraggingOthers) className += " draggingOthers";
 
       return (
         <li className={className} {...rowAttributes}>
