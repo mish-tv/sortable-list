@@ -41,7 +41,7 @@ export const Component = (props: { initialIds: number[]; items: Record<number, I
 
   return (
     <ul className="list">
-      <SortableList ids={ids} setIds={setIds} row={row} scrollBoundaryTop={50} scrollBoundaryBottom={100} />
+      <SortableList ids={ids} setIds={setIds} row={row} />
     </ul>
   );
 };
