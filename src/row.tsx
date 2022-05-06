@@ -98,10 +98,12 @@ export const Row = <Row extends HTMLElement, Id extends React.Key>(props: Props<
     () => ({ onMouseDown, onTouchStart, style: handleCommonStyle }),
     [onMouseDown, onTouchStart],
   );
-  const options: Options = React.useMemo(
-    () => ({ isDragging: mouseDownPositionYState != undefined }),
-    [mouseDownPositionYState],
-  );
+  const options: Options = React.useMemo(() => {
+    const isDraggingThis = mouseDownPositionYState != undefined;
+    if (isDraggingThis) return { isDraggingThis, isDraggingOthers: false };
+
+    return { isDraggingThis, isDraggingOthers: props.isDraggingAny };
+  }, [mouseDownPositionYState]);
 
   return (
     <>
