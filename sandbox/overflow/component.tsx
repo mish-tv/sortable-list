@@ -10,7 +10,8 @@ export const Component = (props: { initialIds: number[]; items: Record<number, I
     (id, rowAttributes, handleAttributes, options) => {
       const item = props.items[id];
       let className = "row";
-      if (options.isDragging) className += " dragging";
+      if (options.isDraggingThis) className += " draggingThis";
+      if (options.isDraggingOthers) className += " draggingOthers";
 
       return (
         <li className={className} {...rowAttributes}>

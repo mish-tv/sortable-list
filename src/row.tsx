@@ -103,7 +103,7 @@ export const Row = <Row extends HTMLElement, Id extends React.Key>(props: Props<
     if (isDraggingThis) return { isDraggingThis, isDraggingOthers: false };
 
     return { isDraggingThis, isDraggingOthers: props.isDraggingAny };
-  }, [mouseDownPositionYState]);
+  }, [props.isDraggingAny, mouseDownPositionYState]);
 
   return (
     <>

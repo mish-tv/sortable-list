@@ -20,7 +20,11 @@
   background-color: rgba(0, 100, 150, 0.4);
   gap: 4px;
 }
-.row.dragging {
+.row.draggingThis {
   z-index: 1;
   background-color: rgba(0, 100, 150, 1);
+}
+.row.draggingOthers {
+  z-index: 0;
+  opacity: 0.8;
 }
