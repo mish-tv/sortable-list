@@ -21,6 +21,7 @@ export const AutoScrollerValueContextProvider = (props: Props) => {
 
   const startScrolling = React.useCallback((target: Window | HTMLElement) => {
     startScrolledY.current = getScrollY(target);
+    setScrolledY(0);
     lastTarget.current = target;
   }, []);
   const updateScrolledY = React.useCallback((target: Window | HTMLElement) => {
