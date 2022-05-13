@@ -1,6 +1,6 @@
 {
   "name": "@mish-tv/sortable-list",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "React component for creating a vertical list UI that can be reordered by drag and drop",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
