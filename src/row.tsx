@@ -5,6 +5,7 @@ import { HandleAttributes, Options, RowAttributes, RowCreator } from "./shared";
 
 type Props<Row extends HTMLElement, Id extends React.Key> = Readonly<{
   id: Id;
+  index: number;
   translateY: number;
   isDraggingAny: boolean;
   rowRef: React.RefObject<Row>;
@@ -100,10 +101,10 @@ export const Row = <Row extends HTMLElement, Id extends React.Key>(props: Props<
   );
   const options: Options = React.useMemo(() => {
     const isDraggingThis = mouseDownPositionYState != undefined;
-    if (isDraggingThis) return { isDraggingThis, isDraggingOthers: false };
+    if (isDraggingThis) return { index: props.index, isDraggingThis, isDraggingOthers: false };
 
-    return { isDraggingThis, isDraggingOthers: props.isDraggingAny };
-  }, [props.isDraggingAny, mouseDownPositionYState]);
+    return { index: props.index, isDraggingThis, isDraggingOthers: props.isDraggingAny };
+  }, [props.index, props.isDraggingAny, mouseDownPositionYState]);
 
   return (
     <>

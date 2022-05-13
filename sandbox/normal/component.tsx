@@ -16,7 +16,7 @@ export const Component = (props: { initialIds: number[]; items: Record<number, I
       return (
         <li className={className} {...rowAttributes}>
           <button type="button" {...handleAttributes}>
-            ⣿
+            {options.index}
           </button>
           <span>{item.body}</span>
         </li>

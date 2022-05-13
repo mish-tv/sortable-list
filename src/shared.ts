@@ -9,7 +9,7 @@ export type HandleAttributes = NonNullables<Pick<React.DOMAttributes<any>, "onMo
 export type RowAttributes<Row> = NonNullables<Pick<React.HTMLAttributes<any>, "style">> &
   React.RefAttributes<Row> & { "sortable-list-translate-y": Nullable<number> };
 
-export type Options = ExclusiveFlags<"isDraggingThis" | "isDraggingOthers">;
+export type Options = ExclusiveFlags<"isDraggingThis" | "isDraggingOthers"> & { index: number };
 
 export type RowCreator<Row extends HTMLElement, Id extends React.Key> = (
   id: Id,
