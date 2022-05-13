@@ -2,7 +2,7 @@ import React from "react";
 
 import { AutoScrollerValueContextProvider, useAutoScroller } from "./auto-scroller";
 import { Row } from "./row";
-import { getTranslateY, RowCreator } from "./shared";
+import { getTranslateY, Nullable, RowCreator } from "./shared";
 
 type Props<Row extends HTMLElement, Id extends React.Key> = Readonly<{
   /** An array of resource ids. */

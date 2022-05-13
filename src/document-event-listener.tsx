@@ -1,5 +1,7 @@
 import React from "react";
 
+import { Nullable } from "./shared";
+
 type Props = Readonly<{
   onMouseMove: Nullable<(event: MouseEvent) => void>;
   onMouseUp: Nullable<(event: MouseEvent) => void>;

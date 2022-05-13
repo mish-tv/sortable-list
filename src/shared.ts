@@ -1,3 +1,9 @@
+export type Nullable<T> = T | undefined;
+export type NonNullables<T> = { [P in keyof T]-?: NonNullable<T[P]> };
+export type ExclusiveFlags<Key extends string> =
+  | { [TrueK in Key]: { [K in Key]: K extends TrueK ? true : false } }[Key]
+  | { [K in Key]: false };
+
 export type HandleAttributes = NonNullables<Pick<React.DOMAttributes<any>, "onMouseDown" | "onTouchStart">> &
   NonNullables<Pick<React.HTMLAttributes<any>, "style">>;
 export type RowAttributes<Row> = NonNullables<Pick<React.HTMLAttributes<any>, "style">> &
