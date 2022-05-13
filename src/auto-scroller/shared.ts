@@ -33,10 +33,9 @@ export const getRelativeRect = (target: HTMLElement, relative: Window | HTMLElem
   return targetRect;
 };
 
-const scrollableStyles = new Set(["scroll", "auto"]);
 export const findScrollableParent = (element: HTMLElement): Window | HTMLElement => {
   const overflowStyle = window.getComputedStyle(element).overflowY;
-  if (scrollableStyles.has(overflowStyle)) return element;
+  if (overflowStyle === "scroll") return element;
 
   if (element === document.body) return window;
 
