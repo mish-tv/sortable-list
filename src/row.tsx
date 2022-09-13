@@ -75,7 +75,7 @@ export const Row = <Row extends HTMLElement, Id extends React.Key>(props: Props<
     };
   }, [onMouseUp]);
 
-  const { style, translateY }: { style: RowAttributes<Row>["style"]; translateY: number } = React.useMemo(() => {
+  const { style, translateY }: { style: RowAttributes["style"]; translateY: number } = React.useMemo(() => {
     if (translateYState != undefined) {
       const translateY = scrolledY + translateYState;
 
@@ -91,9 +91,9 @@ export const Row = <Row extends HTMLElement, Id extends React.Key>(props: Props<
     };
   }, [props.translateY, props.isDraggingAny, translateYState, scrolledY]);
 
-  const rowAttributes: RowAttributes<Row> = React.useMemo(
-    () => ({ style, ref: props.rowRef, "sortable-list-translate-y": translateY === 0 ? undefined : translateY }),
-    [props.rowRef, style, translateY],
+  const rowAttributes: RowAttributes = React.useMemo(
+    () => ({ style, "sortable-list-translate-y": translateY === 0 ? undefined : translateY }),
+    [style, translateY],
   );
   const handleAttributes: HandleAttributes = React.useMemo(
     () => ({ onMouseDown, onTouchStart, style: handleCommonStyle }),
@@ -115,7 +115,7 @@ export const Row = <Row extends HTMLElement, Id extends React.Key>(props: Props<
         onTouchEnd={onTouchEnd}
         onCancel={onMouseUp}
       />
-      {props.row(props.id, rowAttributes, handleAttributes, options)}
+      {props.row({ id: props.id, rowAttributes, rowRef: props.rowRef, handleAttributes, options })}
     </>
   );
 };

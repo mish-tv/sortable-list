@@ -7,14 +7,14 @@ export const Component = (props: { initialIds: number[]; items: Record<number, I
   const [ids, setIds] = React.useState(props.initialIds);
 
   const row: RowCreator<HTMLLIElement, number> = React.useCallback(
-    (id, rowAttributes, handleAttributes, options) => {
+    ({ id, rowAttributes, rowRef, handleAttributes, options }) => {
       const item = props.items[id];
       let className = "row";
       if (options.isDraggingThis) className += " draggingThis";
       if (options.isDraggingOthers) className += " draggingOthers";
 
       return (
-        <li className={className} {...rowAttributes}>
+        <li ref={rowRef} className={className} {...rowAttributes}>
           <button type="button" {...handleAttributes}>
             ⣿
           </button>

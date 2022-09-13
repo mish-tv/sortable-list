@@ -6,17 +6,19 @@ export type ExclusiveFlags<Key extends string> =
 
 export type HandleAttributes = NonNullables<Pick<React.DOMAttributes<any>, "onMouseDown" | "onTouchStart">> &
   NonNullables<Pick<React.HTMLAttributes<any>, "style">>;
-export type RowAttributes<Row> = NonNullables<Pick<React.HTMLAttributes<any>, "style">> &
-  React.RefAttributes<Row> & { "sortable-list-translate-y": Nullable<number> };
+export type RowAttributes = NonNullables<Pick<React.HTMLAttributes<any>, "style">> & {
+  "sortable-list-translate-y": Nullable<number>;
+};
 
 export type Options = ExclusiveFlags<"isDraggingThis" | "isDraggingOthers"> & { index: number };
 
-export type RowCreator<Row extends HTMLElement, Id extends React.Key> = (
-  id: Id,
-  rowAttributes: RowAttributes<Row>,
-  handleAttributes: HandleAttributes,
-  options: Options,
-) => React.ReactNode;
+export type RowCreator<Row extends HTMLElement, Id extends React.Key> = (args: {
+  id: Id;
+  rowAttributes: RowAttributes;
+  rowRef: React.Ref<Row>;
+  handleAttributes: HandleAttributes;
+  options: Options;
+}) => React.ReactNode;
 
 export const getTranslateY = (dom: HTMLElement) => {
   const transformYString = dom.getAttribute("sortable-list-translate-y");
