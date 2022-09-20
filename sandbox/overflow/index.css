@@ -3,7 +3,10 @@
   top: 0;
   bottom: 0;
   left: 0;
+  margin: 40px;
+  padding: 40px;
   overflow: scroll;
+  background-color: lightgray;
 }
 
 .list {

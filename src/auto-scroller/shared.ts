@@ -13,7 +13,7 @@ export const getScrollY = (target: Window | HTMLElement) => ("scrollY" in target
 export const getInnerHeight = (target: Window | HTMLElement) =>
   "offsetHeight" in target ? target.offsetHeight : target.innerHeight;
 const getScrollHeight = (target: Window | HTMLElement) =>
-  "scrollHeight" in target ? target.scrollHeight : document.body.scrollHeight;
+  "scrollHeight" in target ? target.scrollHeight : document.documentElement.scrollHeight;
 
 export const isTop = (target: Window | HTMLElement) => getScrollY(target) <= (isOnMouseDevice() ? 0 : 1);
 export const isBottom = (draggingElement: HTMLElement, target: Window | HTMLElement) => {
