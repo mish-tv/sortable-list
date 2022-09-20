@@ -24,7 +24,7 @@ export const useAutoScroller = (options: Options) => {
 
         return;
       }
-      if (y > 0 && isBottom(current.scrollable)) return;
+      if (y > 0 && isBottom(current.element, current.scrollable)) return;
 
       current.scrollable.scrollBy(0, y);
       updateScrolledY(current.scrollable);

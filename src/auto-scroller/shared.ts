@@ -16,8 +16,11 @@ const getScrollHeight = (target: Window | HTMLElement) =>
   "scrollHeight" in target ? target.scrollHeight : document.body.scrollHeight;
 
 export const isTop = (target: Window | HTMLElement) => getScrollY(target) <= (isOnMouseDevice() ? 0 : 1);
-export const isBottom = (target: Window | HTMLElement) =>
-  getInnerHeight(target) + getScrollY(target) >= getScrollHeight(target);
+export const isBottom = (draggingElement: HTMLElement, target: Window | HTMLElement) => {
+  const innerHeight = Math.max(getInnerHeight(target), getRelativeRect(draggingElement, target).bottom);
+
+  return innerHeight + getScrollY(target) >= getScrollHeight(target);
+};
 
 type Rect = { top: number; bottom: number; height: number };
 export const getRelativeRect = (target: HTMLElement, relative: Window | HTMLElement): Rect => {
