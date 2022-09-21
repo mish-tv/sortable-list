@@ -2,7 +2,7 @@ import React from "react";
 
 import { useInterval } from "./use-interval";
 import { useAutoScrollerValue } from "./auto-scroller-value";
-import { findScrollableParent, getInnerHeight, getRelativeRect, getScrollX, isBottom, isOnMouseDevice, isTop } from "./shared";
+import { findScrollableParent, getInnerHeight, getRelativeRect, isBottom, isOnMouseDevice, isTop } from "./shared";
 
 type Options = Readonly<{
   scrollBoundaryTop: number;
@@ -20,13 +20,13 @@ export const useAutoScroller = (options: Options) => {
       if (current == undefined) return;
 
       if (y < 0 && isTop(current.scrollable)) {
-        if (!isOnMouseDevice()) current.scrollable.scrollTo(getScrollX(current.scrollable), 1);
+        if (!isOnMouseDevice()) current.scrollable.scrollTo({ top: 1 });
 
         return;
       }
       if (y > 0 && isBottom(current.element, current.scrollable)) return;
 
-      current.scrollable.scrollBy(0, y);
+      current.scrollable.scrollBy({ top: y, behavior: "instant" as any });
       updateScrolledY(current.scrollable);
     },
     [updateScrolledY],

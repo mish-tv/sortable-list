@@ -8,7 +8,6 @@ export const scrollDownSmallIfNeeded = () => {
   if (!isOnMouseDevice() && window.scrollY === 0) window.scrollBy(0, 1);
 };
 
-export const getScrollX = (target: Window | HTMLElement) => ("scrollX" in target ? target.scrollX : target.scrollLeft);
 export const getScrollY = (target: Window | HTMLElement) => ("scrollY" in target ? target.scrollY : target.scrollTop);
 export const getInnerHeight = (target: Window | HTMLElement) =>
   "offsetHeight" in target ? target.offsetHeight : target.innerHeight;
