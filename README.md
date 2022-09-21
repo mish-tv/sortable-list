@@ -6,7 +6,7 @@
   </div>
 </h1>
 
-<div align="center"><img height="300" src="https://user-images.githubusercontent.com/1439961/166896857-69bbfbf9-b847-4502-9714-ba9d74c1a97a.gif" /></div>
+<div align="center"><img width="139" height="300" src="https://user-images.githubusercontent.com/1439961/166896857-69bbfbf9-b847-4502-9714-ba9d74c1a97a.gif" /></div>
 <h4 align="center">`@mish-tv/sortable-list` is a React component for creating a vertical list UI that can be sorted by drag and drop.</h4>
 
 ## Usage
