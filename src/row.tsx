@@ -1,14 +1,14 @@
 import React from "react";
 import { DocumentEventListener } from "./document-event-listener";
 import { findScrollableParent, scrollDownSmallIfNeeded, useAutoScrollerValue } from "./auto-scroller";
-import { HandleAttributes, Options, RowAttributes, RowCreator } from "./shared";
+import { HandleAttributes, Key, Options, RowAttributes, RowCreator } from "./shared";
 
-type Props<Row extends HTMLElement, Id extends React.Key> = Readonly<{
+type Props<Row extends HTMLElement, Id extends Key> = Readonly<{
   id: Id;
   index: number;
   translateY: number;
   isDraggingAny: boolean;
-  rowRef: React.RefObject<Row>;
+  rowRef: React.RefObject<Row | null>;
   row: RowCreator<Row, Id>;
   onStartDragging: (id: Id) => void;
   onDrag: (id: Id, y: number) => void;
@@ -17,7 +17,7 @@ type Props<Row extends HTMLElement, Id extends React.Key> = Readonly<{
 
 const handleCommonStyle: React.HTMLAttributes<any>["style"] = { touchAction: "none" };
 
-export const Row = <Row extends HTMLElement, Id extends React.Key>(props: Props<Row, Id>) => {
+export const Row = <Row extends HTMLElement, Id extends Key>(props: Props<Row, Id>) => {
   const [mouseDownPositionYState, setMouseDownPositionYState] = React.useState<number>();
   const [translateYState, setTranslateYState] = React.useState<number>();
   const { scrolledY, startScrolling } = useAutoScrollerValue();
