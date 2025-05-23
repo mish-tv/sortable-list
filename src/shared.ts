@@ -12,7 +12,7 @@ export type RowAttributes = NonNullables<Pick<React.HTMLAttributes<any>, "style"
 
 export type Options = ExclusiveFlags<"isDraggingThis" | "isDraggingOthers"> & { index: number };
 
-export type RowCreator<Row extends HTMLElement, Id extends React.Key> = (args: {
+export type RowCreator<Row extends HTMLElement, Id extends Key> = (args: {
   id: Id;
   rowAttributes: RowAttributes;
   rowRef: React.Ref<Row>;
@@ -25,3 +25,5 @@ export const getTranslateY = (dom: HTMLElement) => {
 
   return transformYString == undefined ? 0 : Number(transformYString);
 };
+
+export type Key = number | string;

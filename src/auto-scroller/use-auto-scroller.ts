@@ -10,7 +10,7 @@ type Options = Readonly<{
 }>;
 
 export const useAutoScroller = (options: Options) => {
-  const dragging = React.useRef<{ element: HTMLElement; scrollable: HTMLElement | Window }>();
+  const dragging = React.useRef<{ element: HTMLElement; scrollable: HTMLElement | Window }>(undefined);
   const [setInterval, clearInterval] = useInterval();
   const { updateScrolledY } = useAutoScrollerValue();
 

@@ -1,7 +1,7 @@
 import React from "react";
 
 export const useInterval = () => {
-  const idRef = React.useRef<number>();
+  const idRef = React.useRef<number>(undefined);
 
   const set = React.useCallback((handler: () => void, timeout: number) => {
     idRef.current = setInterval(handler, timeout);

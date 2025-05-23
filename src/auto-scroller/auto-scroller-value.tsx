@@ -16,8 +16,8 @@ type Props = Except<React.ComponentProps<typeof AutoScrollerValueContext.Provide
 
 export const AutoScrollerValueContextProvider = (props: Props) => {
   const [scrolledY, setScrolledY] = React.useState(0);
-  const startScrolledY = React.useRef<number>();
-  const lastTarget = React.useRef<Window | HTMLElement>();
+  const startScrolledY = React.useRef<number>(undefined);
+  const lastTarget = React.useRef<Window | HTMLElement>(undefined);
 
   const startScrolling = React.useCallback((target: Window | HTMLElement) => {
     startScrolledY.current = getScrollY(target);
